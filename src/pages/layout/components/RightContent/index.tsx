@@ -7,7 +7,7 @@ import HeaderDropdown from '../HeaderDropdown'
 import HeaderSearch from '../HeaderSearch'
 // import "./index.less";
 import classes from './index.module.less'
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { userState } from '@/stores/user'
 import SelectLang from './SelectLang'
 import { ReactComponent as LanguageSvg } from '@/assets/header/language.svg'
@@ -21,7 +21,7 @@ const ENVTagColor = {
 }
 
 const GlobalHeaderRight: React.FC = () => {
-  const [user, setUser] = useRecoilState(userState)
+  const user = useRecoilValue(userState)
 
   const { settings } = user
   let className = classes.right
@@ -36,16 +36,16 @@ const GlobalHeaderRight: React.FC = () => {
     <Space className={className}>
       <HeaderSearch
         className={`${classes.action} ${classes.search}`}
-        placeholder='站内搜索'
-        defaultValue='Ant Design'
+        placeholder='菜单搜索'
+        defaultValue='个人中心'
         options={[
           {
             label: <a href='next.ant.design'>Ant Design</a>,
             value: 'Ant Design'
           },
           {
-            label: <a href='https://protable.ant.design/'>Pro Table</a>,
-            value: 'Pro Table'
+            label: <a href='/'>个人中心</a>,
+            value: '个人中心'
           },
           {
             label: <a href='https://prolayout.ant.design/'>Pro Layout</a>,

@@ -33,26 +33,26 @@ const AxiosProvider = ({ children }: React.PropsWithChildren<unknown>) => {
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <AxiosProvider>
-      <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <ErrorBoundary
-            fallbackRender={({ error, resetErrorBoundary }) => (
-              <div>
+  // <React.StrictMode>
+  <AxiosProvider>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <ErrorBoundary
+          fallbackRender={({ error, resetErrorBoundary }) => (
+            <div>
               There was an error!{' '}
-                <button onClick={() => resetErrorBoundary()}>Try again</button>
-                <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
-              </div>
-            )}
-          >
-            <Suspense fallback={<SuspendFallbackLoading />}>
-              <App />
-            </Suspense>
-          </ErrorBoundary>
-        </RecoilRoot>
-      </QueryClientProvider>
-    </AxiosProvider>,
-  </React.StrictMode>,
+              <button onClick={() => resetErrorBoundary()}>Try again</button>
+              <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
+            </div>
+          )}
+        >
+          <Suspense fallback={<SuspendFallbackLoading />}>
+            <App />
+          </Suspense>
+        </ErrorBoundary>
+      </RecoilRoot>
+    </QueryClientProvider>
+  </AxiosProvider>,
+  // {/* </React.StrictMode>, */}
   document.getElementById('root')
 )

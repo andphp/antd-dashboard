@@ -1,14 +1,14 @@
-import { useRef } from 'react';
-import Driver from 'driver.js';
-import 'driver.js/dist/driver.min.css';
-import './index.less';
-import { useLocale } from '@/locales';
-import { userState } from "@/stores/user";
-import { useRecoilState } from 'recoil';
+import { useRef } from 'react'
+import Driver from 'driver.js'
+import 'driver.js/dist/driver.min.css'
+import './index.less'
+import { useLocale } from '@/locales'
+import { userState } from '@/stores/user'
+import { useRecoilState } from 'recoil'
 
 export const useGuide = () => {
-  const { formatMessage } = useLocale();
-  const [user, setUser] = useRecoilState(userState);
+  const { formatMessage } = useLocale()
+  const [user, setUser] = useRecoilState(userState)
 
   const driver = useRef(
     new Driver({
@@ -21,7 +21,7 @@ export const useGuide = () => {
       nextBtnText: formatMessage({ id: 'app.guide.driverjs.nextBtnText' }),
       doneBtnText: formatMessage({ id: 'app.guide.driverjs.doneBtnText' })
     })
-  );
+  )
 
   const driverStart = () => {
     setTimeout(() => {
@@ -44,23 +44,22 @@ export const useGuide = () => {
             position: 'bottom',
             offset: -200
           }
-        },
-        
-      ]);
+        }
+      ])
 
-      localStorage.setItem('newUser', 'false');
+      localStorage.setItem('newUser', 'false')
       setUser({
         ...user,
         newUser: false
       })
-      driver.current.start();
-      console.log('guide started');
-    }, 1000);
-  };
+      driver.current.start()
+      console.log('guide started')
+    }, 1000)
+  }
 
   return {
     driverStart
-  };
-};
+  }
+}
 
-export default useGuide;
+export default useGuide

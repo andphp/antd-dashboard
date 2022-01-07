@@ -8,20 +8,6 @@ const mockMenuList = [
     icon: 'heart'
   },
   {
-    path: '/project',
-    name: 'Project',
-    icon: 'smile',
-    locale: 'menu.project',
-    children: [
-      {
-        path: '/project/list',
-        name: 'Project List',
-        locale: 'menu.project.list',
-        icon: 'smile'
-      }
-    ]
-  },
-  {
     path: '/permission',
     name: 'permission',
     locale: 'menu.permission',
@@ -41,7 +27,6 @@ const mockMenuList = [
     locale: 'menu.notfound',
     icon: 'frown'
   }
-
 ]
 
 const mockNoticeList = [
@@ -179,4 +164,3 @@ export default [
     }
   }
 ] as MockMethod[]
-

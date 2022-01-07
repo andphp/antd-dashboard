@@ -1,28 +1,28 @@
-import React, { FC, useState, useEffect } from "react";
-import Overview from "./overview";
-import SalePercent from "./salePercent";
-import TimeLine from "./timeLine";
-import "./index.less";
+import React, { FC, useState, useEffect, useMemo } from 'react'
+import Overview from './overview'
+import SalePercent from './salePercent'
+import TimeLine from './timeLine'
+import './index.less'
 
 const DashBoardPage: FC = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(undefined as any);
-    }, 2000);
+      setLoading(undefined as any)
+    }, 2000)
     return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-  return (
+      clearTimeout(timer)
+    }
+  }, [])
+  return useMemo(() => (
     <div>
       <Overview loading={loading} />
 
       <SalePercent loading={loading} />
       <TimeLine loading={loading} />
     </div>
-  );
-};
+  ), [loading])
+}
 
-export default DashBoardPage;
+export default DashBoardPage

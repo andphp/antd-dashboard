@@ -1,16 +1,14 @@
 import React, { FC, useEffect, Suspense, useCallback, useState } from 'react'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import { MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, HeartOutlined, FrownOutlined } from '@ant-design/icons'
 import { MenuList, MenuChild } from '@/models/menu.interface'
 import { useGuide } from '../guide/useGuide'
-import { Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom'
 import { useGetCurrentMenus } from '@/api'
 import { userState } from '@/stores/user'
 import { useRecoilState } from 'recoil'
 
 import type { MenuDataItem } from '@ant-design/pro-layout'
 import ProLayout from '@ant-design/pro-layout'
-import { SmileOutlined, HeartOutlined, FrownOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
 import { useLocale } from '@/locales'
 import { createBrowserHistory } from 'history'
 import RightContent from './components/RightContent'
@@ -64,7 +62,6 @@ const LayoutPage: FC = ({ children }) => {
 
   useEffect(() => {
     newUser && driverStart()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newUser])
 
   const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
@@ -136,7 +133,7 @@ const LayoutPage: FC = ({ children }) => {
             onClick={() => toggle}
             style={{
               cursor: 'pointer',
-              fontSize: '160px'
+              fontSize: '16px'
             }}
           >
             <span id='sidebar-trigger'>
