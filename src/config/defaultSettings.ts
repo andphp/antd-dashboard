@@ -7,12 +7,12 @@ const Settings: LayoutSettings & {
   navTheme: 'dark',
   // 拂晓蓝 dark
   primaryColor: '#1890ff',
-  layout: 'mix', // side , top
+  layout: 'side', // side , top, mix
   contentWidth: 'Fluid',
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'vite-react-admin项目管理',
+  title: 'react-admin',
   pwa: false,
   iconfontUrl: ''
 }

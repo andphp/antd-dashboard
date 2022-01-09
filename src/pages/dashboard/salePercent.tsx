@@ -1,9 +1,9 @@
-import React, { FC, useState } from 'react';
-import { Card, Row, Col, List, Radio, Badge } from 'antd';
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
-import { ColProps } from 'antd/lib/col';
-import { useLocale } from '@/locales';
-import './index.less';
+import React, { FC, useState } from 'react'
+import { Card, Row, Col, List, Radio, Badge } from 'antd'
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts'
+import { ColProps } from 'antd/lib/col'
+import { useLocale } from '@/locales'
+import './index.less'
 
 type DataType = 'all' | 'online' | 'offline';
 
@@ -45,9 +45,9 @@ const data: Data = {
     { name: { zh_CN: '服饰箱包', en_US: 'clothing' }, value: 255 },
     { name: { zh_CN: '其他', en_US: 'others' }, value: 65 }
   ]
-};
+}
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#E36E7E', '#8F66DE'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#E36E7E', '#8F66DE']
 
 const wrapperCol: ColProps = {
   xs: 24,
@@ -56,24 +56,24 @@ const wrapperCol: ColProps = {
   lg: 12,
   xl: 12,
   xxl: 12
-};
+}
 
 const SalePercent: FC<{ loading: boolean }> = ({ loading }) => {
-  const [dataType, setDataType] = useState<DataType>('all');
+  const [dataType, setDataType] = useState<DataType>('all')
   // const { locale } = useAppState(state => state.user);
-  const locale = 'zh_CN';
-  const { formatMessage } = useLocale();
+  const locale = 'zh_CN'
+  const { formatMessage } = useLocale()
 
   return (
     <Card
-      style={{ marginTop: 12}}
+      style={{ marginTop: 12 }}
       title={formatMessage({ id: 'app.dashboard.salePercent.proportionOfSales' })}
       loading={loading}
       extra={
-        <Radio.Group value={dataType} onChange={e => setDataType(e.target.value)} buttonStyle="solid">
-          <Radio.Button value="all">{formatMessage({ id: 'app.dashboard.salePercent.all' })}</Radio.Button>
-          <Radio.Button value="online">{formatMessage({ id: 'app.dashboard.salePercent.online' })}</Radio.Button>
-          <Radio.Button value="offline">{formatMessage({ id: 'app.dashboard.salePercent.offline' })}</Radio.Button>
+        <Radio.Group value={dataType} onChange={e => setDataType(e.target.value)} buttonStyle='solid'>
+          <Radio.Button value='all'>{formatMessage({ id: 'app.dashboard.salePercent.all' })}</Radio.Button>
+          <Radio.Button value='online'>{formatMessage({ id: 'app.dashboard.salePercent.online' })}</Radio.Button>
+          <Radio.Button value='offline'>{formatMessage({ id: 'app.dashboard.salePercent.offline' })}</Radio.Button>
         </Radio.Group>
       }
     >
@@ -84,16 +84,16 @@ const SalePercent: FC<{ loading: boolean }> = ({ loading }) => {
               <Tooltip
                 content={({ active, payload }: any) => {
                   if (active) {
-                    const { name, value } = payload[0];
-                    const total = data[dataType].map(d => d.value).reduce((a, b) => a + b);
-                    const percent = ((value / total) * 100).toFixed(2) + '%';
+                    const { name, value } = payload[0]
+                    const total = data[dataType].map(d => d.value).reduce((a, b) => a + b)
+                    const percent = ((value / total) * 100).toFixed(2) + '%'
                     return (
-                      <span className="customTooltip">
+                      <span className='customTooltip'>
                         {name[locale]} : {percent}
                       </span>
-                    );
+                    )
                   }
-                  return null;
+                  return null
                 }}
               />
               <Pie
@@ -102,7 +102,7 @@ const SalePercent: FC<{ loading: boolean }> = ({ loading }) => {
                 innerRadius={60}
                 outerRadius={80}
                 paddingAngle={5}
-                dataKey="value"
+                dataKey='value'
               >
                 {data[dataType].map((_, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index]} />
@@ -116,20 +116,20 @@ const SalePercent: FC<{ loading: boolean }> = ({ loading }) => {
             bordered
             dataSource={data[dataType]}
             renderItem={(item, index) => {
-              const total = data[dataType].map(d => d.value).reduce((a, b) => a + b);
-              const percent = ((item.value / total) * 100).toFixed(2) + '%';
+              const total = data[dataType].map(d => d.value).reduce((a, b) => a + b)
+              const percent = ((item.value / total) * 100).toFixed(2) + '%'
               return (
                 <List.Item>
                   <Badge color={COLORS[index]} />
                   <span>{item.name[locale]}</span> | <span>{item.value}</span> <span>¥ {percent}</span>
                 </List.Item>
-              );
+              )
             }}
           />
         </Col>
       </Row>
     </Card>
-  );
-};
+  )
+}
 
-export default SalePercent;
+export default SalePercent

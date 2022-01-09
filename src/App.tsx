@@ -1,9 +1,30 @@
-import React, { useEffect,Component } from 'react'
-import './App.less'
-import { useGetCurrentUser } from './api'
-import { useRecoilState } from 'recoil'
+import React, { Suspense, useEffect, useMemo } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { IntlProvider } from 'react-intl'
 
-class App extends Component {
+import { localeConfig } from '@/config/locale'
+import { ConfigProvider } from 'antd'
+import enUS from 'antd/es/locale/en_US'
+import zhCN from 'antd/es/locale/zh_CN'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+import RenderRouter from './routes'
+
+import './App.less'
+
+import { useGetCurrentUser } from './api'
+import { createBrowserHistory } from 'history'
+import { useRecoilState } from 'recoil'
+import { userState } from './stores/user'
+import { Locale } from './models/user'
+import LayoutPage from '@/pages/layout'
+import Dashboard from '@/pages/dashboard'
+import LoginPage from '@/pages/login'
+import NotFound from '@/pages/404'
+
+const history = createBrowserHistory()
+
+const App: React.FC = () => {
   const [user, setUser] = useRecoilState(userState)
   const { locale } = user
 
@@ -14,14 +35,49 @@ class App extends Component {
     setUser({ ...user, username: currentUser?.username || '', logged: true })
   }, [currentUser])
 
- 
-  render(): React.ReactNode {
-    return (
-      <div className='App'>
-        this is a new world
-      </div>
-    )
+  useEffect(() => {
+    if (locale.toLowerCase() === 'en-us') {
+      moment.locale('en')
+    } else if (locale.toLowerCase() === 'zh-cn') {
+      moment.locale('zh')
+    }
+  }, [locale])
+
+  const getAntdLocale = () => {
+    if (locale.toLowerCase() === 'en-us') {
+      return enUS
+    } else if (locale.toLowerCase() === 'zh-cn') {
+      return zhCN
+    }
   }
+
+  const getLocale = () => {
+    const lang = localeConfig.find((item) => {
+      return item.key === locale.toLowerCase()
+    })
+
+    return lang?.messages
+  }
+
+  if (error) {
+    setUser({ ...user, logged: false })
+    history.push('/login')
+  }
+  return (
+    <ConfigProvider locale={getAntdLocale()} componentSize='middle'>
+      <IntlProvider locale={locale.split('-')[0]} messages={getLocale()}>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<LayoutPage />}>
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='*' element={<NotFound />} />
+            </Route>
+            <Route path='/login' element={<LoginPage />} />
+          </Routes>
+        </BrowserRouter>
+      </IntlProvider>
+    </ConfigProvider>
+  )
 }
 
 export default App

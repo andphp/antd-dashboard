@@ -61,14 +61,14 @@ const GlobalHeaderRight: React.FC = () => {
 
         overlay={
           <Menu>
-            <Menu.Item
+            <Menu.Item key='wendang1'
               onClick={() => {
                 window.open('/~docs')
               }}
             >
               文档
             </Menu.Item>
-            <Menu.Item
+            <Menu.Item key='wendang2'
               onClick={() => {
                 window.open('https://pro.ant.design/docs/getting-started')
               }}

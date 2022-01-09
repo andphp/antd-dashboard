@@ -1,11 +1,10 @@
-import { createContext, ReactNode } from 'react'
-import Axios, { AxiosInstance, AxiosTransformer } from 'axios'
+import { createContext, useContext } from 'react'
+import Axios, { AxiosInstance, AxiosRequestTransformer } from 'axios'
 import { notification } from 'antd'
-import { useContext } from 'react'
+
 import { createBrowserHistory } from 'history'
-import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import qs from 'qs'
-import { result } from 'cypress/types/lodash'
 
 const history = createBrowserHistory()
 
@@ -22,7 +21,7 @@ axios.interceptors.request.use((config) => {
   // Read token for anywhere, in this case directly from localStorage
   const token = localStorage.getItem('token')
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+    config.headers = { Authorization: `Bearer ${token}` }
   }
 
   return config
@@ -50,8 +49,8 @@ axios.interceptors.response.use(
   },
   (error) => {
     console.log('err:', error, error.response) // for debug
-    const msg = '请求错误'
-    if (error.response && error.response.status) {
+
+    if (error.response?.status) {
       switch (error.response.status) {
         // 401: 未登录
         // 未登录则跳转登录页面，并携带当前页面的路径
@@ -156,14 +155,14 @@ interface listParams {
 const useGetList = <T>(key: string, url: string, pagination?: any, filters?: any, sorter?: any) => {
   const axios = useAxios()
 
-  const service = async () => {
+  const service = async() => {
     let params: listParams = {}
 
     params = { ...transformPagination(pagination) }
     params.filter = transformFilters(filters)
     params.order = transformSorter(sorter)
 
-    const transformRequest: AxiosTransformer = (data, headers) => {}
+    const transformRequest: AxiosRequestTransformer = () => {}
     console.log('params: ', params)
     const data: T = await axios.get(`${url}`, {
       params,
@@ -181,7 +180,7 @@ const useGetList = <T>(key: string, url: string, pagination?: any, filters?: any
 const useGetOne = <T>(key: string, url: string, params?: any) => {
   const axios = useAxios()
 
-  const service = async () => {
+  const service = async() => {
     const data: T = await axios.get(`${url}`, params)
 
     return data
@@ -191,8 +190,7 @@ const useGetOne = <T>(key: string, url: string, params?: any) => {
 
 const useCreate = <T, U>(url: string) => {
   const axios = useAxios()
-  const queryClient = useQueryClient()
-  return useMutation(async (params: T) => {
+  return useMutation(async(params: T) => {
     const data: U = await axios.post(`${url}`, params)
     return data
   })
@@ -200,8 +198,7 @@ const useCreate = <T, U>(url: string) => {
 
 const useUpdate = <T>(url: string) => {
   const axios = useAxios()
-  const queryClient = useQueryClient()
-  return useMutation(async (item: T) => {
+  return useMutation(async(item: T) => {
     const data: T = await axios.patch(`${url}`, item)
     return data
   })
@@ -209,8 +206,7 @@ const useUpdate = <T>(url: string) => {
 
 const useDelete = <T>(url: string) => {
   const axios = useAxios()
-  const queryClient = useQueryClient()
-  return useMutation(async (id: number) => {
+  return useMutation(async(id: number) => {
     const data: T = await axios.delete(`${url}?id=${id}`)
     return data
   })
@@ -218,8 +214,7 @@ const useDelete = <T>(url: string) => {
 
 const useBatch = (url: string) => {
   const axios = useAxios()
-  const queryClient = useQueryClient()
-  return useMutation(async (ids: number[]) => {
+  return useMutation(async(ids: number[]) => {
     const data = await axios.post(`${url}`, { idList: ids })
     return data
   })
