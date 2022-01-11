@@ -27,7 +27,6 @@ const mockMenuList = [
     locale: 'menu.notfound',
     icon: 'frown'
   }
-
 ]
 
 const mockNoticeList = [
@@ -165,4 +164,3 @@ export default [
     }
   }
 ] as MockMethod[]
-

@@ -9,7 +9,6 @@ import { useRecoilState } from 'recoil'
 
 import type { MenuDataItem } from '@ant-design/pro-layout'
 import ProLayout from '@ant-design/pro-layout'
-
 import { useLocale } from '@/locales'
 import { createBrowserHistory } from 'history'
 import RightContent from './components/RightContent'

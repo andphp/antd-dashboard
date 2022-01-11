@@ -1,4 +1,4 @@
-import { SearchOutlined, SmileOutlined } from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
 import { AutoComplete, Input } from 'antd'
 import useMergedState from 'rc-util/es/hooks/useMergedState'
 import type { AutoCompleteProps } from 'antd/es/auto-complete'

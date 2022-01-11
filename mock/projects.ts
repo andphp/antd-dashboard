@@ -13,7 +13,6 @@ const mockProjects = {
       name: 'Project2',
       description: 'description'
     }
-
   ]
 }
 

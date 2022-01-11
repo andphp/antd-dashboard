@@ -12,7 +12,7 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'react-admin',
+  title: 'antd-dashboard',
   pwa: false,
   iconfontUrl: ''
 }

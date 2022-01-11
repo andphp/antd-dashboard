@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { LoginParams } from '@/models/login'
@@ -8,6 +8,8 @@ import { Location } from 'history'
 import { useLogin } from '@/api'
 
 import styles from './index.module.less'
+import registerPng from '@/assets/login/register.png'
+import loginPng from '@/assets/login/login.png'
 import { ReactComponent as LogoSvg } from '@/assets/logo/logo.svg'
 
 const initialValues: LoginParams = {
@@ -36,45 +38,35 @@ const LoginForm: FC = () => {
     }
   }
 
+  const [isSign, setIsSign] = useState(true)
+
+  const changeBtn = () => setIsSign(!isSign)
   return (
-    <div className={styles.container}>
-      <div className={styles.top}>
-        <div className={styles.header}>
-          <Link to='/'>
-            <LogoSvg className={styles.logo} />
-            <span className={styles.title}>项目管理</span>
-          </Link>
+    <div className={`${styles.container} ${isSign ? '' : styles.signUpMode}`}>
+      <div className={styles.formsContainer}>
+        <div className={styles.signinSignup}>
+          <div className={styles.signin}>
+            sdf
+          </div>
         </div>
-        <div className={styles.desc}>全新技术栈(React\Recoil\React Query\React Hooks\Vite)的后台管理系统</div>
       </div>
-      <div className={styles.main}>
-        <Form<LoginParams> onFinish={onFinished} initialValues={initialValues}>
-          <Form.Item
-            name='username'
-            rules={[{ required: true, message: '请输入用户名！' }]}
-          >
-            <Input size='large' placeholder='用户名' />
-          </Form.Item>
-          <Form.Item
-            name='password'
-            rules={[{ required: true, message: '请输入密码！' }]}
-          >
-            <Input type='password' size='large' placeholder='密码' />
-          </Form.Item>
-          <Form.Item name='remember' valuePropName='checked'>
-            <Checkbox>记住用户</Checkbox>
-          </Form.Item>
-          <Form.Item>
-            <Button
-              size='large'
-              className={styles.mainLoginBtn}
-              htmlType='submit'
-              type='primary'
-            >
-              登录
-            </Button>
-          </Form.Item>
-        </Form>
+      <div className={styles.panelsContainer}>
+        <div className={`${styles.panel} ${styles.leftPanel}`}>
+          <div className={styles.content}>
+            <h1>Admin-Vue3-Antd</h1>
+            <p>牛逼plus 江北区最具影响力的 Web 后台管理系统</p>
+            <Button onClick={changeBtn}>注册</Button>
+          </div>
+          <img className={styles.image} src={loginPng}></img>
+        </div>
+        <div className={`${styles.panel} ${styles.rightPanel}`}>
+          <div className={styles.content}>
+            <h1>Admin-Vue3-Antd</h1>
+            <p>牛逼plus 江北区最具影响力的 Web 后台管理系统</p>
+            <Button onClick={changeBtn}>登录</Button>
+          </div>
+          <img className={styles.image} src={registerPng}></img>
+        </div>
       </div>
     </div>
   )
