@@ -1,6 +1,6 @@
 import { Tag, Space, Menu, Button } from 'antd'
 import { QuestionCircleOutlined, ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Avatar from './AvatarDropdown'
 import HeaderDropdown from '../HeaderDropdown'
@@ -33,14 +33,7 @@ const GlobalHeaderRight: React.FC = () => {
   ) {
     className = `${classes.right} ${classes.dark}`
   }
-  const [screeIcon, setScreeIcon] = useState(<ArrowsAltOutlined/>)
-  screenfull.onchange(() => {
-    if (screenfull.isFullscreen && screeIcon !== <ShrinkOutlined/>) {
-      setScreeIcon(<ShrinkOutlined/>)
-    } else {
-      setScreeIcon(<ArrowsAltOutlined/>)
-    }
-  })
+
   const screenfullToggle = () => {
     if (screenfull.isEnabled) {
       screenfull.toggle()
@@ -99,9 +92,8 @@ const GlobalHeaderRight: React.FC = () => {
         </span>
       </HeaderDropdown>
       <Avatar />
-      <Button type='link' icon={screeIcon} onClick={screenfullToggle}/>
+      <Button type='link' icon={screenfull.isFullscreen ? <ShrinkOutlined/> : <ArrowsAltOutlined/>} onClick={screenfullToggle}/>
       <SelectLang className={classes.action} />
-      {console.log('inpu森t')}
     </Space>
   )
 }

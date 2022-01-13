@@ -64,14 +64,12 @@ const LoginForm: FC = () => {
                   rules={[{ required: true, message: '请输入用户名！' }]}
                 >
                   <Input className={ styles.antInput} size='large' autoComplete='on' placeholder='用户名' prefix={ <UserOutlined style={{ color: '#1890ff' }} />} />
-
                 </Form.Item>
                 <Form.Item
                   name='password'
                   rules={[{ required: true, message: '请输入密码！' }]}
                 ><div style={{ borderRadius: '8px 8px' }}>
                     <Input className={ styles.antInput} type='password' size='large' autoComplete='on' placeholder='密码' prefix={<LockOutlined style={{ color: '#1890ff' }} />} />
-
                   </div>
                 </Form.Item>
                 <Form.Item name='remember' valuePropName='checked'>
