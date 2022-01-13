@@ -1,6 +1,6 @@
-import { Tag, Space, Menu } from 'antd'
-import { QuestionCircleOutlined } from '@ant-design/icons'
-import React from 'react'
+import { Tag, Space, Menu, Button } from 'antd'
+import { QuestionCircleOutlined, ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons'
+import React, { useState } from 'react'
 
 import Avatar from './AvatarDropdown'
 import HeaderDropdown from '../HeaderDropdown'
@@ -11,6 +11,7 @@ import { useRecoilValue } from 'recoil'
 import { userState } from '@/stores/user'
 import SelectLang from './SelectLang'
 import { ReactComponent as LanguageSvg } from '@/assets/header/language.svg'
+import screenfull from 'screenfull'
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -32,6 +33,20 @@ const GlobalHeaderRight: React.FC = () => {
   ) {
     className = `${classes.right} ${classes.dark}`
   }
+  const [screeIcon, setScreeIcon] = useState(<ArrowsAltOutlined/>)
+  screenfull.onchange(() => {
+    if (screenfull.isFullscreen && screeIcon !== <ShrinkOutlined/>) {
+      setScreeIcon(<ShrinkOutlined/>)
+    } else {
+      setScreeIcon(<ArrowsAltOutlined/>)
+    }
+  })
+  const screenfullToggle = () => {
+    if (screenfull.isEnabled) {
+      screenfull.toggle()
+    }
+  }
+
   return (
     <Space className={className}>
       <HeaderSearch
@@ -78,13 +93,15 @@ const GlobalHeaderRight: React.FC = () => {
           </Menu>
         }
       >
+
         <span>
           <QuestionCircleOutlined />
         </span>
       </HeaderDropdown>
       <Avatar />
-
+      <Button type='link' icon={screeIcon} onClick={screenfullToggle}/>
       <SelectLang className={classes.action} />
+      {console.log('inpu森t')}
     </Space>
   )
 }
