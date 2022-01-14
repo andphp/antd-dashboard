@@ -20,6 +20,7 @@ import LayoutPage from '@/pages/layout'
 import Dashboard from '@/pages/dashboard'
 import LoginPage from '@/pages/login'
 import NotFound from '@/pages/404'
+import SystemPage from './pages/system'
 
 const history = createBrowserHistory()
 
@@ -69,6 +70,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path='/' element={<LayoutPage />}>
               <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/system' element={<SystemPage />} />
               <Route path='*' element={<NotFound />} />
             </Route>
             <Route path='/login' element={<LoginPage />} />

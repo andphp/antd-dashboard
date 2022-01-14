@@ -8,6 +8,7 @@ import './index.css'
 import App from './App'
 import { ErrorBoundary } from 'react-error-boundary'
 import SuspendFallbackLoading from './pages/layout/suspendFallbackLoading'
+import 'nprogress/nprogress.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {

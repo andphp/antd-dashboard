@@ -91,11 +91,11 @@ const LayoutPage: FC = ({ children }) => {
         <a
           className={styles.layoutPageHeader}
         >
-          <LogoSvg />
           {title}
         </a>
       )}
-      headerHeight={60}
+
+      headerHeight={68}
       menuHeaderRender={undefined}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (

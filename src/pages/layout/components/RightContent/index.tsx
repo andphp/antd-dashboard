@@ -94,6 +94,7 @@ const GlobalHeaderRight: React.FC = () => {
       <Avatar />
       <Button type='link' icon={screenfull.isFullscreen ? <ShrinkOutlined/> : <ArrowsAltOutlined/>} onClick={screenfullToggle}/>
       <SelectLang className={classes.action} />
+
     </Space>
   )
 }

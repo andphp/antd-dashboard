@@ -7,19 +7,24 @@ const mockMenuList = [
     locale: 'menu.dashboard',
     icon: 'heart'
   },
+  // {
+  //   path: '/permission',
+  //   name: 'permission',
+  //   locale: 'menu.permission',
+  //   icon: 'smile',
+  //   children: [
+  //     {
+  //       path: '/permission/list',
+  //       name: 'permission list',
+  //       locale: 'menu.permission.list',
+  //       icon: 'smile'
+  //     }
+  //   ]
+  // },
   {
-    path: '/permission',
-    name: 'permission',
-    locale: 'menu.permission',
-    icon: 'smile',
-    children: [
-      {
-        path: '/permission/list',
-        name: 'permission list',
-        locale: 'menu.permission.list',
-        icon: 'smile'
-      }
-    ]
+    path: '/system',
+    name: 'systemManage',
+    locale: 'menu.system'
   },
   {
     path: '/404',
