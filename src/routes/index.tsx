@@ -24,7 +24,7 @@ import NotFound from '@/pages/404'
 const routeList: RouteObject[] = [
   {
     path: '/',
-    element: <WrapperRouteComponent path='/dashboard' render={ props => <LayoutPage { ...props }/>} />,
+    element: <WrapperRouteComponent auth={ false} path='/' render={ props => <LayoutPage { ...props }/>} />,
     children: [
       {
         path: '/dashboard',
@@ -32,7 +32,7 @@ const routeList: RouteObject[] = [
       },
       {
         path: '/system',
-        element: <WrapperRouteComponent path='/system' render={props => <SystemPage { ...props }/>}/>
+        element: <WrapperRouteComponent auth={ true} path='/system' render={props => <SystemPage { ...props }/>}/>
       },
       {
         path: '*',

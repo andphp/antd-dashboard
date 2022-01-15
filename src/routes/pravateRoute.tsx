@@ -1,18 +1,18 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { Route, useNavigate } from 'react-router-dom'
 import { Result, Button } from 'antd'
 import { useLocale } from '@/locales'
 import { RouteProps, useLocation } from 'react-router'
-
-const PrivateRoute: FC<RouteProps> = props => {
-  const logged = true
+export interface PrivateRouteProps extends RouteProps {
+  render: FC<ReactNode>;
+}
+const PrivateRoute: FC<PrivateRouteProps> = ({ render, ...props }) => {
+  const logged = false
   const navigate = useNavigate()
   const { formatMessage } = useLocale()
   const location = useLocation()
 
-  return logged ? (
-    <Route {...props} />
-  ) : (
+  return logged ? render({ ...props }) : (
     <Result
       status='403'
       title='403'
