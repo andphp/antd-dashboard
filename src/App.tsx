@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useMemo } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useRoutes } from 'react-router-dom'
 import { IntlProvider } from 'react-intl'
 
 import { localeConfig } from '@/config/locale'
@@ -21,6 +21,8 @@ import Dashboard from '@/pages/dashboard'
 import LoginPage from '@/pages/login'
 import NotFound from '@/pages/404'
 import SystemPage from './pages/system'
+
+import RenderRouter from './routes'
 
 const history = createBrowserHistory()
 
@@ -67,14 +69,7 @@ const App: React.FC = () => {
     <ConfigProvider locale={getAntdLocale()} componentSize='middle'>
       <IntlProvider locale={locale.split('-')[0]} messages={getLocale()}>
         <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<LayoutPage />}>
-              <Route path='/dashboard' element={<Dashboard />} />
-              <Route path='/system' element={<SystemPage />} />
-              <Route path='*' element={<NotFound />} />
-            </Route>
-            <Route path='/login' element={<LoginPage />} />
-          </Routes>
+          <RenderRouter/>
         </BrowserRouter>
       </IntlProvider>
     </ConfigProvider>

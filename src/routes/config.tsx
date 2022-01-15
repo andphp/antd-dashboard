@@ -1,24 +1,25 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, ReactNode } from 'react'
 import { Route } from 'react-router-dom'
 import { RouteProps } from 'react-router'
 import PrivateRoute from './pravateRoute'
 import { useIntl } from 'react-intl'
-import nprogress from 'nprogress'
+import nProgress, { NProgress } from 'nprogress'
 
 export interface WrapperRouteProps extends RouteProps {
   /** authorization？ */
   auth?: boolean;
+  render: FC<ReactNode>;
 }
 
-const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, ...props }) => {
-  useState(nprogress.start())
+const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, render, ...props }) => {
+  useState(nProgress.start())
   useEffect(() => {
-    nprogress.done()
-    return () => nprogress.start()
+    nProgress.done()
+    return () => nProgress.start()
   })
-  const { formatMessage } = useIntl()
-  const WitchRoute = auth ? PrivateRoute : Route
-  return <WitchRoute {...props} />
+  // const { formatMessage } = useIntl()
+  // const WitchRoute = auth ? PrivateRoute : Route
+  return render({ ...props })
 }
 
 export default WrapperRouteComponent
