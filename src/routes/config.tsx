@@ -24,7 +24,6 @@ const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, render, ...props }
   }
   // const { formatMessage } = useIntl()
   const WitchRoute = auth ? <PrivateRoute render={ render}/> : render({ ...props })
-  console.log('==================sss==========', auth)
   // return render({ ...props })
   return WitchRoute
 }

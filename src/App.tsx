@@ -1,28 +1,18 @@
-import React, { Suspense, useEffect, useMemo } from 'react'
-import { BrowserRouter, Route, Routes, useRoutes } from 'react-router-dom'
-import { IntlProvider } from 'react-intl'
-
 import { localeConfig } from '@/config/locale'
 import { ConfigProvider } from 'antd'
 import enUS from 'antd/es/locale/en_US'
 import zhCN from 'antd/es/locale/zh_CN'
+import { createBrowserHistory } from 'history'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-
-import './App.less'
-
-import { useGetCurrentUser } from './api'
-import { createBrowserHistory } from 'history'
+import React, { useEffect } from 'react'
+import { IntlProvider } from 'react-intl'
+import { BrowserRouter } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { userState } from './stores/user'
-
-import LayoutPage from '@/pages/layout'
-import Dashboard from '@/pages/dashboard'
-import LoginPage from '@/pages/login'
-import NotFound from '@/pages/404'
-import SystemPage from './pages/system'
-
+import { useGetCurrentUser } from './api'
+import './App.less'
 import RenderRouter from './routes'
+import { userState } from './stores/user'
 
 const history = createBrowserHistory()
 
@@ -30,12 +20,12 @@ const App: React.FC = () => {
   const [user, setUser] = useRecoilState(userState)
   const { locale } = user
 
-  const { data: currentUser, error } = useGetCurrentUser()
+  // const { data: currentUser, error } = useGetCurrentUser()
 
-  useEffect(() => {
-    console.log('currentUser: ', currentUser)
-    setUser({ ...user, username: currentUser?.username || '', logged: true })
-  }, [currentUser])
+  // useEffect(() => {
+  //   console.log('currentUser: ', currentUser)
+  //   setUser({ ...user, username: currentUser?.username || '', logged: true })
+  // }, [currentUser])
 
   useEffect(() => {
     if (locale.toLowerCase() === 'en-us') {
@@ -61,10 +51,6 @@ const App: React.FC = () => {
     return lang?.messages
   }
 
-  if (error) {
-    setUser({ ...user, logged: false })
-    history.push('/login')
-  }
   return (
     <ConfigProvider locale={getAntdLocale()} componentSize='middle'>
       <IntlProvider locale={locale.split('-')[0]} messages={getLocale()}>

@@ -96,7 +96,7 @@ const LayoutPage: FC = ({ children }) => {
       )}
 
       headerHeight={68}
-      menuHeaderRender={undefined}
+      // menuHeaderRender={undefined}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (
           menuItemProps.isUrl ||

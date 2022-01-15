@@ -11,8 +11,8 @@ const initialState: User = {
   newUser: JSON.parse(localStorage.getItem('newUser')!) ?? true,
   logged: false,
   menuList: [],
-  username: localStorage.getItem('username') || '',
-  role: (localStorage.getItem('username') || '') as Role,
+  username: localStorage.getItem('username') || '游客',
+  role: (localStorage.getItem('role') || 'guest') as Role,
   avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
 }
 

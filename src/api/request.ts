@@ -8,7 +8,7 @@ import qs from 'qs'
 
 const history = createBrowserHistory()
 
-console.log('baseurl:', import.meta.env.VITE_BASE_URL)
+// console.log('baseurl:', import.meta.env.VITE_BASE_URL)
 const axios = Axios.create({
   baseURL: String(import.meta.env.VITE_BASE_URL),
   timeout: 1000,
@@ -163,7 +163,7 @@ const useGetList = <T>(key: string, url: string, pagination?: any, filters?: any
     params.order = transformSorter(sorter)
 
     const transformRequest: AxiosRequestTransformer = () => {}
-    console.log('params: ', params)
+    // console.log('params: ', params)
     const data: T = await axios.get(`${url}`, {
       params,
       paramsSerializer: (params) => {
