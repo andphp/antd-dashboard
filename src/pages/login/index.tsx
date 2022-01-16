@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { Button, Checkbox, Form, Input, Card } from 'antd'
+import { Button, Checkbox, Form, Input, Card, Row, Col } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { LoginParams } from '@/models/login'
@@ -13,7 +13,7 @@ import registerPng from '@/assets/login/register.png'
 import loginPng from '@/assets/login/login.png'
 import { ReactComponent as LogoSvg } from '@/assets/logo/logo.svg'
 import { useLocale } from '@/locales'
-
+import SelectLang from '../layout/components/RightContent/SelectLang'
 const initialValues: LoginParams = {
   username: 'guest',
   password: 'guest'
@@ -42,12 +42,14 @@ const LoginForm: FC = () => {
 
   const [isSign, setIsSign] = useState(true)
   const titleFormatMessageId = isSign ? 'login.title' : 'register.title'
+
   const changeBtn = () => setIsSign(!isSign)
   return (
     <div className={`${styles.container} ${isSign ? '' : styles.signUpMode}`}>
       <div className={styles.formsContainer}>
         <div className={styles.signinSignup}>
           <div className={styles.signin}>
+            <SelectLang className={styles.action} />
             <Card
               title={formatMessage({ id: titleFormatMessageId })}
               bordered
@@ -62,20 +64,21 @@ const LoginForm: FC = () => {
                 onFinish={onFinished} initialValues={initialValues}>
                 <Form.Item
                   name='username'
-                  rules={[{ required: true, message: '请输入用户名！' }]}
+                  rules={[{ required: true, message: formatMessage({ id: 'login.form.username.rule.message' }) }]}
                 >
                   <Input className={ styles.antInput} size='large' autoComplete='on' placeholder='用户名' prefix={ <UserOutlined style={{ color: '#1890ff' }} />} />
                 </Form.Item>
                 <Form.Item
                   name='password'
-                  rules={[{ required: true, message: '请输入密码！' }]}
+                  rules={[{ required: true, message: formatMessage({ id: 'login.form.password.rule.message' }) }]}
                 ><div style={{ borderRadius: '8px 8px' }}>
                     <Input className={ styles.antInput} type='password' size='large' autoComplete='on' placeholder='密码' prefix={<LockOutlined style={{ color: '#1890ff' }} />} />
                   </div>
                 </Form.Item>
                 <Form.Item name='remember' valuePropName='checked'>
-                  <Checkbox>记住用户</Checkbox>
+                  <Checkbox>{formatMessage({ id: 'login.form.remember.checkbox' })}</Checkbox>
                 </Form.Item>
+
                 <Form.Item wrapperCol={{ span: 24 }}>
                   <Button
                     size='large'
@@ -84,7 +87,7 @@ const LoginForm: FC = () => {
                     type='primary'
                     block
                   >
-              登录
+                    { formatMessage({ id: titleFormatMessageId })}
                   </Button>
                 </Form.Item>
 
@@ -97,16 +100,16 @@ const LoginForm: FC = () => {
         <div className={`${styles.panel} ${styles.leftPanel}`}>
           <div className={styles.content}>
             <h1>Admin-React-Antd</h1>
-            <p>全新技术栈(React\Recoil\React Query\React Hooks\Vite)的后台管理系统</p>
-            <Button onClick={changeBtn}>注册</Button>
+            <p>{formatMessage({ id: 'login.slogan' })}</p>
+            <Button shape='round' onClick={changeBtn}>{formatMessage({ id: 'register.title' })}</Button>
           </div>
           <img className={styles.image} src={loginPng}></img>
         </div>
         <div className={`${styles.panel} ${styles.rightPanel}`}>
           <div className={styles.content}>
             <h1>Admin-React-Antd</h1>
-            <p>牛逼plus 江北区最具影响力的 Web 后台管理系统</p>
-            <Button onClick={changeBtn}>登录</Button>
+            <p>{formatMessage({ id: 'register.slogan' })}</p>
+            <Button shape='round' onClick={changeBtn}>{formatMessage({ id: 'login.title' })}</Button>
           </div>
           <img className={styles.image} src={registerPng}></img>
         </div>
