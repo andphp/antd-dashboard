@@ -70,7 +70,6 @@ const LayoutPage: FC = ({ children }) => {
     const m = menus.map(({ icon, children, ...item }) => ({
       ...item,
       icon: icon && IconMap[icon as string],
-      hideChildrenInMenu: true,
       children: children && loopMenuItem(children)
     }))
 

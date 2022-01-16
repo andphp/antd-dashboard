@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-function DomesticOrderPage() {
+const DomesticOrderPage: FC = () => {
   return (
     <div>
       this is a domesticOrderPage

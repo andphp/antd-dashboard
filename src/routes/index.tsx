@@ -14,6 +14,9 @@ import { Routes } from 'react-router-dom'
 // const Project = lazy(() => import('@/pages/project'));
 
 import NotFound from '@/pages/404'
+import DomesticOrderPage from '@/pages/order/domestic'
+import InternationalOrderPage from '@/pages/order/international'
+import OrderPage from '@/pages/order/index'
 
 // const lazyLoad = (children: ReactNode): ReactNode => {
 //   return <Suspense fallback={<Spin tip={ `加载中、、、` }/> }>
@@ -33,6 +36,19 @@ const routeList: RouteObject[] = [
       {
         path: '/system',
         element: <WrapperRouteComponent auth={ true} path='/system' render={props => <SystemPage { ...props }/>}/>
+      },
+      {
+        path: '/order',
+        element: <WrapperRouteComponent path='/order' render={props => <OrderPage { ...props }/>}/>,
+        children: [
+          {
+            path: 'domestic',
+            element: <WrapperRouteComponent path='/order/domestic' render={props => <DomesticOrderPage { ...props }/>}/>
+          }, {
+            path: 'international',
+            element: <WrapperRouteComponent path='/order/international' render={props => <InternationalOrderPage { ...props }/>}/>
+          }
+        ]
       },
       {
         path: '*',

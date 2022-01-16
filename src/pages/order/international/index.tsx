@@ -1,6 +1,5 @@
-import React from 'react'
-
-function InternationalOrderPage() {
+import React, { FC } from 'react'
+const InternationalOrderPage: FC = () => {
   return (
     <div>
       this is a internationalPage

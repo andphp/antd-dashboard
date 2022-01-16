@@ -24,7 +24,28 @@ const mockMenuList = [
   {
     path: '/system',
     name: 'systemManage',
-    locale: 'menu.system'
+    locale: 'menu.system',
+    icon: 'smile'
+  },
+  {
+    path: '/order',
+    name: 'orderManage',
+    locale: 'menu.order',
+    icon: 'smile',
+    children: [
+      {
+        path: 'domestic',
+        name: 'domestic',
+        locale: 'menu.order.domestic',
+        icon: 'smile'
+      },
+      {
+        path: 'international',
+        name: 'international',
+        locale: 'menu.order.international',
+        icon: 'smile'
+      }
+    ]
   },
   {
     path: '/404',

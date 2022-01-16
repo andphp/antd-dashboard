@@ -12,6 +12,7 @@ import styles from './index.module.less'
 import registerPng from '@/assets/login/register.png'
 import loginPng from '@/assets/login/login.png'
 import { ReactComponent as LogoSvg } from '@/assets/logo/logo.svg'
+import { useLocale } from '@/locales'
 
 const initialValues: LoginParams = {
   username: 'guest',
@@ -23,7 +24,7 @@ const LoginForm: FC = () => {
   const loginMutation = useLogin()
   const navigate = useNavigate()
   const location = useLocation() as Location<{ from: string }>
-
+  const { formatMessage } = useLocale()
   // const dispatch = useAppDispatch();
 
   const onFinished = async(form: LoginParams) => {
@@ -40,7 +41,7 @@ const LoginForm: FC = () => {
   }
 
   const [isSign, setIsSign] = useState(true)
-
+  const titleFormatMessageId = isSign ? 'login.title' : 'register.title'
   const changeBtn = () => setIsSign(!isSign)
   return (
     <div className={`${styles.container} ${isSign ? '' : styles.signUpMode}`}>
@@ -48,7 +49,7 @@ const LoginForm: FC = () => {
         <div className={styles.signinSignup}>
           <div className={styles.signin}>
             <Card
-              title={`${isSign ? '登录' : '注册'}`}
+              title={formatMessage({ id: titleFormatMessageId })}
               bordered
               hoverable
               className={ styles.aCard}
