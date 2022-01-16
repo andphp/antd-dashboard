@@ -4,7 +4,7 @@ const Settings: LayoutSettings & {
   pwa?: boolean
   logo?: string
 } = {
-  navTheme: 'light',
+  navTheme: 'dark',
   // 拂晓蓝 dark light
   primaryColor: '#1890ff',
   layout: 'mix', // side , top, mix
@@ -14,7 +14,8 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: 'antd-dashboard',
   pwa: false,
-  iconfontUrl: ''
+  iconfontUrl: '',
+  splitMenus: true
 }
 
 export default Settings

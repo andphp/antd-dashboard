@@ -1,20 +1,19 @@
-import React, { FC, useEffect, Suspense, useCallback, useState } from 'react'
-import { MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, HeartOutlined, FrownOutlined } from '@ant-design/icons'
-import { MenuList, MenuChild } from '@/models/menu.interface'
-import { useGuide } from '../guide/useGuide'
-import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom'
 import { useGetCurrentMenus } from '@/api'
+import { useLocale } from '@/locales'
+import { MenuChild, MenuList } from '@/models/menu.interface'
 import { userState } from '@/stores/user'
-import { useRecoilState } from 'recoil'
-
+import { FrownOutlined, HeartOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined } from '@ant-design/icons'
 import type { MenuDataItem } from '@ant-design/pro-layout'
 import ProLayout from '@ant-design/pro-layout'
-import { useLocale } from '@/locales'
 import { createBrowserHistory } from 'history'
-import RightContent from './components/RightContent'
-import { ReactComponent as LogoSvg } from '@/assets/logo/react.svg'
-import styles from './index.module.less'
+import React, { FC, useEffect, useState } from 'react'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import { useGuide } from '../guide/useGuide'
 import Footer from './components/Footer'
+import RightContent from './components/RightContent'
+import TopLevelMenuPage from './components/TopLevelMenuPage'
+import styles from './index.module.less'
 
 const history = createBrowserHistory()
 
@@ -35,8 +34,9 @@ const LayoutPage: FC = ({ children }) => {
   const location = useLocation()
   const navigate = useNavigate()
   const { formatMessage } = useLocale()
-
   useEffect(() => {
+    console.log('MenuList', menuList)
+    console.log('location', location)
     if (location.pathname === '/') {
       navigate('/dashboard')
     }
@@ -64,13 +64,21 @@ const LayoutPage: FC = ({ children }) => {
     newUser && driverStart()
   }, [newUser])
 
+  const IsTopLevelMenu = (): boolean => {
+    if (!menuList) return false
+    const currentMenu = menuList.filter((menu) => (
+      menu.path.toLowerCase() === location.pathname && menu?.children?.length
+    ))
+    return currentMenu.length > 0
+  }
+
   const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
     if (!menus) return []
 
     const m = menus.map(({ icon, children, ...item }) => ({
       ...item,
+      hideInBreadcrumb: false,
       icon: icon && IconMap[icon as string],
-      hideChildrenInMenu: true,
       children: children && loopMenuItem(children)
     }))
 
@@ -92,11 +100,12 @@ const LayoutPage: FC = ({ children }) => {
         <a
           className={styles.layoutPageHeader}
         >
+          {logo}
           {title}
         </a>
       )}
 
-      headerHeight={68}
+      headerHeight={58}
       // menuHeaderRender={undefined}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (
@@ -144,7 +153,8 @@ const LayoutPage: FC = ({ children }) => {
         )
       }}
     >
-      <Outlet />
+
+      { IsTopLevelMenu() ? <TopLevelMenuPage /> : <Outlet />}
     </ProLayout>
   )
 }

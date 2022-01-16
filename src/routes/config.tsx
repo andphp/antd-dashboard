@@ -3,7 +3,7 @@ import { Route, Navigate } from 'react-router-dom'
 import { RouteProps } from 'react-router'
 import PrivateRoute from './pravateRoute'
 import { useIntl } from 'react-intl'
-import nProgress, { NProgress } from 'nprogress'
+
 import LoginPage from '@/pages/login'
 export interface WrapperRouteProps extends RouteProps {
   /** authorization？ */
@@ -12,11 +12,6 @@ export interface WrapperRouteProps extends RouteProps {
 }
 
 const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, render, ...props }) => {
-  useState(nProgress.start())
-  useEffect(() => {
-    nProgress.done()
-    return () => nProgress.start()
-  })
   // Verify login
   const isSignIn = true
   if (!isSignIn) {
