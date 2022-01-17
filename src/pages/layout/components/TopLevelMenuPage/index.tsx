@@ -1,6 +1,8 @@
 import { useGetCurrentMenus } from '@/api'
+import { Divider, Row } from 'antd'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import SelectMenuCard from './SelectMenuCard'
 const TopLevelMenuPage: React.FC = () => {
   const location = useLocation()
   const { data: menuList, error } = useGetCurrentMenus()
@@ -15,6 +17,21 @@ const TopLevelMenuPage: React.FC = () => {
     <div>
       {
         loopMenuItem().map((menuItem) => {
+          console.log('menuItem', menuItem)
+          if (menuItem.children?.length) {
+            return (
+              <>
+                <Divider orientation='left'>{menuItem.path}</Divider>
+                <Row gutter={[16, { xs: 8, sm: 16 }]}>
+
+                  {
+                    menuItem.children.map((menuChildrenItem) => <SelectMenuCard path={menuChildrenItem.path} />)
+                  }
+                </Row>
+
+              </>
+            )
+          }
           return menuItem.path
         })
       }

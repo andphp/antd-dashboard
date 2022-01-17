@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 const SystemPage: FC = (props) => {
   console.log('syetem.props', props)
-  return (<div>dfd要枯</div>)
+  return (<div>this is systemManagePage</div>)
 }
 
 export default SystemPage

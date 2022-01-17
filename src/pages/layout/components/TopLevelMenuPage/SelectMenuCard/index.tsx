@@ -1,9 +1,19 @@
+import { Card, Col } from 'antd'
 import React from 'react'
-const SelectMenuCard: React.FC = () => {
+import { RouteProps, useNavigate } from 'react-router-dom'
+import styles from './index.module.less'
+
+export type SelectMenuCardProps = RouteProps
+const SelectMenuCard: React.FC<SelectMenuCardProps> = ({ path }) => {
+  const navigate = useNavigate()
+  const toPath = path ?? '/'
   return (
-    <div>
-      ddsf
-    </div>
+    <Col span={6}>
+      <Card onClick={() => navigate(toPath, { replace: true })} className={styles.siteCardBorderLessWrapper} title='Card title' >
+        <p>{path}</p>
+      </Card>
+    </Col>
+
   )
 }
 

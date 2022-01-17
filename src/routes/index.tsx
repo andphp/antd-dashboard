@@ -14,6 +14,8 @@ import { Spin } from 'antd'
 const SystemPage = lazy(() => import('@/pages/system'))
 const DomesticOrderPage = lazy(() => import('@/pages/order/domestic/index'))
 const InternationalOrderPage = lazy(() => import('@/pages/order/international/index'))
+const MenuManagement = lazy(() => import('@/pages/system/authority/menuManagement'))
+const InterfaceManagement = lazy(() => import('@/pages/system/authority/interfaceManagement'))
 
 import NotFound from '@/pages/404'
 // import DomesticOrderPage from '@/pages/order/domestic/index'
@@ -38,7 +40,22 @@ const routeList: RouteObject[] = [
       },
       {
         path: '/system',
-        element: lazyLoad(<WrapperRouteComponent path='/system' render={props => <SystemPage { ...props }/>}/>)
+        element: <WrapperRouteComponent path='/system' render={() => <Outlet />}/>,
+        children: [
+          {
+            path: 'authority',
+            element: <WrapperRouteComponent path='/system/authority' render={() => <Outlet />}/>,
+            children: [
+              {
+                path: 'menu',
+                element: lazyLoad(<WrapperRouteComponent path='/system/authority/menu' render={props => <MenuManagement index={true} { ...props }/>}/>)
+              }, {
+                path: 'interface',
+                element: lazyLoad(<WrapperRouteComponent path='/system/authority/interface' render={props => <InterfaceManagement { ...props }/>}/>)
+              }
+            ]
+          }
+        ]
       },
       {
         path: 'order',
