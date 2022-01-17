@@ -8,7 +8,7 @@ const SelectMenuCard: React.FC<SelectMenuCardProps> = ({ path }) => {
   const navigate = useNavigate()
   const toPath = path ?? '/'
   return (
-    <Col span={6}>
+    <Col xs={24} sm={12} md={6}>
       <Card onClick={() => navigate(toPath, { replace: true })} className={styles.siteCardBorderLessWrapper} title='Card title' >
         <p>{path}</p>
       </Card>
