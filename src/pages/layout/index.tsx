@@ -86,16 +86,7 @@ const LayoutPage: FC = ({ children }) => {
 
     return m
   }
-  // const pickRoutes = (routes: MenuList | RouteObject[] | undefined, pathname: string) => {
-  //   const matches = matchRoutes(routes, { pathname })
-  //   const routeConfig = matches ? matches[matches.length - 1].route : null
-  //   return {
-  //     routeConfig,
-  //     // matchPath: matches ? matches.map(match => _.replace(match.route.path,'/*','')).join('/') : null // 解决下微端/*路径的问题
-  //     matchPath: routeConfig ? _.replace(routeConfig.key, '/*', '') : null
-  //   }
-  // }
-  // const { routeConfig, matchPath } = pickRoutes(menuList, location.pathname)
+
   return (
     <ProLayout
       fixSiderbar
@@ -165,7 +156,7 @@ const LayoutPage: FC = ({ children }) => {
       }}
     >
 
-      { IsTopLevelMenu() ? <TopLevelMenuPage /> : <TabRoute routeConfig={menuList} matchPath={location.pathname} />}
+      { IsTopLevelMenu() ? <TopLevelMenuPage /> : <TabRoute />}
     </ProLayout>
   )
 }

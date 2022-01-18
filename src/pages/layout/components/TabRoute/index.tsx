@@ -1,9 +1,8 @@
 import React, { useRef, Suspense } from 'react'
 import { Tabs } from 'antd'
-// import Lru from "@/utils/lru";
+
 import _ from 'lodash'
 import { useMemoizedFn, useCreation } from 'ahooks'
-// import { useWhyDidYouUpdate } from 'ahooks';
 
 import {
   useOutlet,
@@ -11,7 +10,8 @@ import {
   useLocation,
   generatePath,
   useParams,
-  Params
+  Params,
+  Outlet
 } from 'react-router-dom'
 
 import { PageLoading } from '@ant-design/pro-layout'
@@ -20,16 +20,7 @@ const { TabPane } = Tabs
 
 const getTabPath = (tab: { location: { pathname: string }; params: Params<string> | undefined }) => generatePath(tab.location.pathname, tab.params)
 
-// tab的select key = location.pathname + , + matchpath
-// 以此解决 微端情况下 tab 的 key 相同导致页面可能丢失的问题。
-// const generTabKey = memoized((location: { pathname: any }, matchpath: any) => `${location.pathname},${matchpath}`)
-
-// 从key中返回 ,号后面的字符
-// const getTabMapKey = memoized((key: string) => key.substring(key.indexOf(',') + 1, key.length))
-
-const TabRoute = function(props: { routeConfig: any; matchPath: any }) {
-  const { routeConfig, matchPath } = props
-
+const TabRoute = function() {
   const ele = useOutlet()
 
   const location = useLocation()
@@ -42,31 +33,22 @@ const TabRoute = function(props: { routeConfig: any; matchPath: any }) {
 
   // 确保tab
   const updateTabList = useCreation(() => {
-    const tab = tabList.current.get(matchPath)
+    const tab = tabList.current.get(location.pathname)
     const newTab = {
-      name: routeConfig.name,
-      // key: generTabKey(location, matchPath),
-      page: ele,
+      name: location.pathname,
+      key: location.pathname,
       // access:routeConfig.access,
-      location,
-      params
+      location
     }
-    // console.log("tabList is",tabList);
-    // console.log("cur tab is:",tab);
-    // console.log('match matchPath is',matchPath);
-    // console.log('params is',params);
-    // console.log('location is',location);
-    // console.log('ele is',ele);
+
     if (tab) {
-      // 处理微前端情况，如发生路径修改则替换
-      // 还要比较参数
-      // 微端路由更新 如果key不更新的话。会导致页面丢失..
       if (tab.location.pathname !== location.pathname) {
-        tabList.current.set(matchPath, newTab)
+        tabList.current.set(location.pathname, newTab)
       }
     } else {
-      tabList.current.set(matchPath, newTab)
+      tabList.current.set(location.pathname, newTab)
     }
+    console.log('location.ddpathname', location.pathname)
   }, [location])
 
   const closeTab = useMemoizedFn((selectKey) => {
@@ -91,7 +73,7 @@ const TabRoute = function(props: { routeConfig: any; matchPath: any }) {
     <Tabs
       // className={styles.tabs}
       // activeKey={generTabKey(location, matchPath)}
-      activeKey={routeConfig}
+      activeKey={location.pathname}
       // onChange={(key) => selectTab(key)}
       // tabBarExtraContent={operations}
       tabBarStyle={{ background: '#fff' }}
@@ -103,8 +85,8 @@ const TabRoute = function(props: { routeConfig: any; matchPath: any }) {
       onEdit={(targetKey) => closeTab(targetKey)}
     >
       {[...tabList.current.values()].map((item) => (
-        <TabPane tab={item.path} key={item.path}>
-          <Suspense fallback={<PageLoading />}>{item.page}</Suspense>
+        <TabPane tab={item.name} key={item.key}>
+          <Suspense fallback={<PageLoading />}><Outlet/></Suspense>
         </TabPane>
       ))}
     </Tabs>

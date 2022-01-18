@@ -5398,11 +5398,6 @@ nano-css@^5.3.1:
     stacktrace-js "^2.0.2"
     stylis "^4.0.6"
 
-nano-memoize@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.nlark.com/nano-memoize/download/nano-memoize-1.2.1.tgz#21091318021c81374a525349a8cd0ad712122077"
-  integrity sha1-IQkTGAIcgTdKUlNJqM0K1xISIHc=
-
 nano-time@1.0.0:
   version "1.0.0"
   resolved "https://registry.nlark.com/nano-time/download/nano-time-1.0.0.tgz#b0554f69ad89e22d0907f7a12b0993a5d96137ef"

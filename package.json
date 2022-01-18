@@ -42,7 +42,20 @@
     "todomvc-app-css": "^2.4.1",
     "typescript": "^4.5.4",
     "web-vitals": "^2.1.2"
-  },
+  }, 
+  "keywords": [
+    "antd",
+    "recoil",
+    "admin",
+    "pwa",
+    "multitabs",
+    "tabs",
+    "hook",
+    "react-router-dom6",
+    "react",
+    "react-query",
+    "vite"
+  ],
   "devDependencies": {
     "@types/classnames": "^2.3.1",
     "@types/lodash": "^4.14.178",
