@@ -7,14 +7,16 @@ import type { MenuDataItem } from '@ant-design/pro-layout'
 import ProLayout from '@ant-design/pro-layout'
 import { createBrowserHistory } from 'history'
 import React, { FC, useEffect, useState } from 'react'
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Link, matchRoutes, Outlet, RouteObject, useLocation, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { useGuide } from '../guide/useGuide'
 import Footer from './components/Footer'
 import RightContent from './components/RightContent'
+import TabRoute from './components/TabRoute'
 import TopLevelMenuPage from './components/TopLevelMenuPage'
 import styles from './index.module.less'
-
+import _ from 'lodash'
+import memoized from 'nano-memoize'
 const history = createBrowserHistory()
 
 const IconMap: { [key: string]: React.ReactNode } = {
@@ -84,7 +86,16 @@ const LayoutPage: FC = ({ children }) => {
 
     return m
   }
-
+  // const pickRoutes = (routes: MenuList | RouteObject[] | undefined, pathname: string) => {
+  //   const matches = matchRoutes(routes, { pathname })
+  //   const routeConfig = matches ? matches[matches.length - 1].route : null
+  //   return {
+  //     routeConfig,
+  //     // matchPath: matches ? matches.map(match => _.replace(match.route.path,'/*','')).join('/') : null // 解决下微端/*路径的问题
+  //     matchPath: routeConfig ? _.replace(routeConfig.key, '/*', '') : null
+  //   }
+  // }
+  // const { routeConfig, matchPath } = pickRoutes(menuList, location.pathname)
   return (
     <ProLayout
       fixSiderbar
@@ -154,9 +165,10 @@ const LayoutPage: FC = ({ children }) => {
       }}
     >
 
-      { IsTopLevelMenu() ? <TopLevelMenuPage /> : <Outlet />}
+      { IsTopLevelMenu() ? <TopLevelMenuPage /> : <TabRoute routeConfig={menuList} matchPath={location.pathname} />}
     </ProLayout>
   )
 }
 
 export default LayoutPage
+
