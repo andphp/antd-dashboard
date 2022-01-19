@@ -32,7 +32,7 @@ const lazyLoad = (children: ReactNode): ReactNode => {
 const routeList: RouteObject[] = [
   {
     path: '/',
-    element: <WrapperRouteComponent auth={ false} path='/' render={ props => <LayoutPage { ...props }/>} />,
+    element: <LayoutPage />,
     children: [
       {
         path: '/dashboard',

@@ -15,6 +15,7 @@ import {
 } from 'react-router-dom'
 
 import { PageLoading } from '@ant-design/pro-layout'
+import { useGetCurrentMenus } from '@/api'
 
 const { TabPane } = Tabs
 
@@ -30,11 +31,19 @@ const TabRoute = function() {
   const navigate = useNavigate()
 
   const tabList = useRef(new Map())
-
+  const { data: menuList, error } = useGetCurrentMenus()
+  const IsTopLevelMenu = (): boolean => {
+    if (!menuList) return false
+    const currentMenu = menuList.filter((menu) => (
+      menu.path.toLowerCase() === location.pathname && menu?.children?.length
+    ))
+    return currentMenu.length > 0
+  }
   // 确保tab
   const updateTabList = useCreation(() => {
     console.log('tablocation', location.pathname)
     const tab = tabList.current.get(location.pathname)
+    const getFastTab = tabList.current.get('fastRouter')
     console.log('tab', tab)
     const newTab = {
       name: location.pathname,
@@ -44,9 +53,20 @@ const TabRoute = function() {
       location,
       params
     }
-
-    if (tab) {
-      // console.log('tag', tab)
+    const fastTab = {
+      name: '快捷导航',
+      key: location.pathname,
+      page: ele,
+      // access:routeConfig.access,
+      location,
+      params
+    }
+    if (getFastTab) {
+      tabList.current.delete('fastRouter')
+    }
+    if (IsTopLevelMenu()) {
+      tabList.current.set('fastRouter', fastTab)
+    } else if (tab) {
       if (tab.location.pathname !== location.pathname) {
         tabList.current.set(location.pathname, newTab)
       }
@@ -90,7 +110,7 @@ const TabRoute = function() {
       onEdit={(targetKey) => closeTab(targetKey)}
     >
       {[...tabList.current.values()].map((item) => (
-        <TabPane tab={item.name} key={item.key}>
+        <TabPane style={{ paddingLeft: '16px' }} tab={item.name} key={item.key}>
           <Suspense fallback={<PageLoading />}>{item.page}</Suspense>
         </TabPane>
       ))}

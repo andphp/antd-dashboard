@@ -93,6 +93,7 @@ const LayoutPage: FC = ({ children }) => {
       location={{
         pathname: location.pathname
       }}
+      contentStyle={{ margin: 0 }}
       {...settings}
       onCollapse={toggle}
       formatMessage={formatMessage}
