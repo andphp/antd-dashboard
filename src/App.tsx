@@ -13,7 +13,7 @@ import { useGetCurrentUser } from './api'
 import './App.less'
 import RenderRouter from './routes'
 import { userState } from './stores/user'
-
+import 'antd/dist/antd.css'
 const history = createBrowserHistory()
 
 const App: React.FC = () => {

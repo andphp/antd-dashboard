@@ -179,21 +179,35 @@ export default [
   {
     url: '/api/v1/login',
     method: 'POST',
-    response: ({ body }) => {
+    response: () => {
       return {
-        token: '123abcdefg',
-        username: body.username,
-        role: body.username
+        code: 0,
+        data: {
+          accessToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkZWZhdWx0XzYxZTgxZDc5YWFhYzQzLjQyNTkwNzc3IiwiaWF0IjoxNjQyNjAxODQ5LCJuYmYiOjE2NDI2MDE4NDksImV4cCI6MTY0MjY4ODI0OSwiaWQiOjEsImVtYWlsIjoiMjkxODQ2MTUzQHFxLmNvbSIsInBob25lIjoiMTgyMDI4MjE5MTYiLCJ1c2VybmFtZSI6ImFkbWluIiwibmlja25hbWUiOiIiLCJkZXBhcnRtZW50X2lkIjowLCJyZWFsbmFtZSI6Ilx1OGQ4NVx1N2VhN1x1N2JhMVx1NzQwNlx1NTQ1OCIsInBhc3N3b3JkIjoiJDJ5JDEwJFFJVmdHdnVST013U3ZNei5IXC9GaUhlbk8yZzNOZDFBUFwvbW9YcXY3YjN1OXA1MTg5cHF4NVciLCJhdmF0YXIiOiIiLCJsYXN0X2xvZ2luX2F0IjoiMjAyMi0wMS0xOSAyMjoxNzoyOSIsInN0YXR1cyI6MSwibGFzdF9pcCI6IjEwLjQyLjMuMjQ2IiwidXBkYXRlZF9hdCI6IjIwMjItMDEtMTkgMjI6MTc6MjkiLCJyb2xlX2lkcyI6W10sInJvbGVfbmFtZSI6W10sImRlcGFydG1lbnRfbmFtZSI6IiIsImp3dF9zY2VuZSI6ImRlZmF1bHQifQ.sTSCEyRBQ94D1Ewm0iI8Hsq0XbFhHLMOMHFXx8dfdyQ',
+          expireToken: 86400
+        },
+        msg: 'successful'
       }
     }
   },
   {
     url: '/api/v1/current/user',
     method: 'get',
-    response: ({ body }) => {
+    response: () => {
       return {
-        username: '超级管理员',
-        role: 'admin'
+        code: 0,
+        data: {
+          username: '超级管理员',
+          realname: '',
+          avatar: '',
+          departmentId: 0,
+          departmentName: '',
+          roleId: '',
+          role: 'admin',
+          phone: '182****1916',
+          email: '29****153@qq.com'
+        },
+        msg: 'successful'
       }
     }
   },
@@ -201,14 +215,22 @@ export default [
     url: '/api/v1/current/menu',
     method: 'get',
     response: ({ body }) => {
-      return mockMenuList
+      return {
+        code: 0,
+        msg: 'successful',
+        data: mockMenuList
+      }
     }
   },
   {
     url: '/api/v1/current/notice',
     method: 'get',
     response: ({ body }) => {
-      return mockNoticeList
+      return {
+        code: 0,
+        msg: 'successful',
+        data: mockNoticeList
+      }
     }
   }
 ] as MockMethod[]

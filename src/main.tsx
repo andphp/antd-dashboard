@@ -2,7 +2,7 @@ import React, { Suspense, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { RecoilRoot } from 'recoil'
-import axios, { AxiosContext } from './api/request'
+import axios, { AxiosContext } from './utils/request'
 
 import './index.css'
 import App from './App'

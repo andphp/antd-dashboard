@@ -21,3 +21,9 @@ export function getGlobalState() {
     settings
   } as const
 }
+
+export interface ApiResult {
+  code: number,
+  msg: string,
+  data: any
+}

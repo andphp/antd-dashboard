@@ -1,3 +1,5 @@
+import { ApiResult } from '.'
+
 /** user's role */
 export type Role = 'guest' | 'admin'
 
@@ -10,9 +12,8 @@ export interface LoginParams {
 
 export interface LoginResult {
   /** auth token */
-  token: string
-  username: string
-  role: Role
+  accessToken: string
+  expireToken: number
 }
 
 export interface LogoutParams {

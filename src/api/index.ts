@@ -1,7 +1,7 @@
 import { MenuList } from '@/models/menu.interface'
 import { LoginParams, LoginResult } from '@/models/login'
 import { CurrentUserResult } from '@/models/user'
-import { useBatch, useCreate, useGetList, useGetOne, useUpdate } from './request'
+import { useBatch, useCreate, useGetList, useGetOne, useUpdate } from '../utils/request'
 
 const projectResource = '/projects'
 

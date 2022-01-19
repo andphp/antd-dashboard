@@ -33,7 +33,15 @@ axios.interceptors.response.use(
     const data = response.data
     console.log('response:', response)
     if (response.status === 200) {
-      return data
+      if (data.code === 0) {
+        return data?.data
+      } else {
+        notification.error({
+          message: '响应信息',
+          description: data.msg || 'Error'
+        })
+        return null
+      }
     }
 
     notification.error({
