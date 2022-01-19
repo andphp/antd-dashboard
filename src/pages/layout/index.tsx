@@ -37,8 +37,7 @@ const LayoutPage: FC = ({ children }) => {
   const navigate = useNavigate()
   const { formatMessage } = useLocale()
   useEffect(() => {
-    console.log('MenuList', menuList)
-    console.log('location', location)
+    console.log('llocat', location)
     if (location.pathname === '/') {
       navigate('/dashboard')
     }
@@ -155,8 +154,8 @@ const LayoutPage: FC = ({ children }) => {
         )
       }}
     >
-
-      { IsTopLevelMenu() ? <TopLevelMenuPage /> : <TabRoute />}
+      <TabRoute />
+      {/* { IsTopLevelMenu() ? <TopLevelMenuPage /> : <TabRoute />} */}
     </ProLayout>
   )
 }

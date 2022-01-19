@@ -33,15 +33,20 @@ const TabRoute = function() {
 
   // 确保tab
   const updateTabList = useCreation(() => {
+    console.log('tablocation', location.pathname)
     const tab = tabList.current.get(location.pathname)
+    console.log('tab', tab)
     const newTab = {
       name: location.pathname,
       key: location.pathname,
+      page: ele,
       // access:routeConfig.access,
-      location
+      location,
+      params
     }
 
     if (tab) {
+      // console.log('tag', tab)
       if (tab.location.pathname !== location.pathname) {
         tabList.current.set(location.pathname, newTab)
       }
@@ -74,7 +79,7 @@ const TabRoute = function() {
       // className={styles.tabs}
       // activeKey={generTabKey(location, matchPath)}
       activeKey={location.pathname}
-      // onChange={(key) => selectTab(key)}
+      onChange={(key) => selectTab(key)}
       // tabBarExtraContent={operations}
       tabBarStyle={{ background: '#fff' }}
       tabPosition='top'
@@ -86,7 +91,7 @@ const TabRoute = function() {
     >
       {[...tabList.current.values()].map((item) => (
         <TabPane tab={item.name} key={item.key}>
-          <Suspense fallback={<PageLoading />}><Outlet/></Suspense>
+          <Suspense fallback={<PageLoading />}>{item.page}</Suspense>
         </TabPane>
       ))}
     </Tabs>

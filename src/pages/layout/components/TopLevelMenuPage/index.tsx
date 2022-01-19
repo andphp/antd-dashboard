@@ -11,7 +11,7 @@ const TopLevelMenuPage: React.FC = () => {
     const currentMenu = menuList.filter((menu) => (
       menu.path.toLowerCase() === location.pathname && menu?.children?.length
     ))
-    return currentMenu[0].children ?? []
+    return currentMenu[0]?.children ?? []
   }
   return (
     <div>

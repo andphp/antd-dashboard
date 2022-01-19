@@ -48,10 +48,10 @@ const routeList: RouteObject[] = [
             children: [
               {
                 path: 'menu',
-                element: lazyLoad(<WrapperRouteComponent path='/system/authority/menu' render={props => <MenuManagement index={true} { ...props }/>}/>)
+                element: lazyLoad(<WrapperRouteComponent path='/system/authority/menu' render={props => <MenuManagement key='/system/authority/menu' index={true} { ...props }/>}/>)
               }, {
                 path: 'interface',
-                element: lazyLoad(<WrapperRouteComponent path='/system/authority/interface' render={props => <InterfaceManagement { ...props }/>}/>)
+                element: lazyLoad(<WrapperRouteComponent path='/system/authority/interface' render={props => <InterfaceManagement key='/system/authority/interface' { ...props }/>}/>)
               }
             ]
           }
