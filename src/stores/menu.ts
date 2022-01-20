@@ -6,17 +6,21 @@ export const menuListState = atom({
   default: []
 })
 
-export const setMenuState = (path: string, data: never[] | ((currVal: never[]) => never[])) => {
+export const setMenuState = (path: string, data: any) => {
   console.log('path======', path)
   console.log('path======', data)
   const menuState = atom({
     key: path,
-    default: []
+    default: null
   })
   const [_, setStateMenu] = useRecoilState(menuState)
   setStateMenu(data)
 }
 
-export const getMenuState = (path: RecoilValue<unknown>) => {
-  return useRecoilValue(path)
+export const getMenuState = (path: string) => {
+  const menuState = atom({
+    key: path,
+    default: null
+  })
+  return useRecoilValue(menuState)
 }

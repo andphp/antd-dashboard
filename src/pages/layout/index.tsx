@@ -16,8 +16,8 @@ import TabRoute from './components/TabRoute'
 import TopLevelMenuPage from './components/TopLevelMenuPage'
 import styles from './index.module.less'
 import _ from 'lodash'
-// import memoized from 'nano-memoize'
-import { setMenuState } from '@/stores/menu'
+import memoized from 'nano-memoize'
+import { getMenuState, setMenuState } from '@/stores/menu'
 const history = createBrowserHistory()
 
 const IconMap: { [key: string]: React.ReactNode } = {
@@ -77,18 +77,12 @@ const LayoutPage: FC = ({ children }) => {
   const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
     if (!menus) return []
 
-    const m = menus.map(({ path, icon, children, ...item }) => {
-      // if (path !== undefined) {
-      //   setMenuState(path, item)
-      // }
-
-      return {
-        ...item,
-        hideInBreadcrumb: false,
-        icon: icon && IconMap[icon as string],
-        children: children && loopMenuItem(children)
-      }
-    })
+    const m = menus.map(({ icon, children, ...item }) => ({
+      ...item,
+      hideInBreadcrumb: false,
+      icon: icon && IconMap[icon as string],
+      children: children && loopMenuItem(children)
+    }))
 
     return m
   }
@@ -104,7 +98,7 @@ const LayoutPage: FC = ({ children }) => {
       {...settings}
       onCollapse={toggle}
       formatMessage={formatMessage}
-      onMenuHeaderClick={() => history.push('https://reactjs.org/')}
+      onMenuHeaderClick={() => history.push('/')}
       headerTitleRender={(logo, title, props) => (
         <a
           className={styles.layoutPageHeader}
