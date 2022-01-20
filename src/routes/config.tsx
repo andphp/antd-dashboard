@@ -14,11 +14,9 @@ export interface WrapperRouteProps extends RouteProps {
 }
 
 const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, render, ...props }) => {
-  // Verify login
-  const isSignIn = true
-  if (!isSignIn) {
-    return <Navigate to='/login' />
-  }
+  // const { formatMessage } = useIntl()
+  const WitchRoute = auth ? <PrivateRoute render={ render}/> : render({ ...props })
+
   const { data: menuList, error } = useGetCurrentMenus()
   const IsTopLevelMenu = (): boolean => {
     if (!menuList) return false
@@ -27,8 +25,6 @@ const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, render, ...props }
     ))
     return currentMenu.length > 0
   }
-  // const { formatMessage } = useIntl()
-  const WitchRoute = auth ? <PrivateRoute render={ render}/> : render({ ...props })
   // return render({ ...props })
   return IsTopLevelMenu() ? <TopLevelMenuPage children={WitchRoute}/> : WitchRoute
 }

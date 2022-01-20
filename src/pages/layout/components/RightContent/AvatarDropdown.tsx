@@ -12,6 +12,7 @@ import HeaderDropdown from '../HeaderDropdown'
 import classes from './index.module.less'
 import { useRecoilState } from 'recoil'
 import { userState } from '@/stores/user'
+import Storage from '@/utils/Storage'
 
 export interface GlobalHeaderRightProps {
   menu?: boolean;
@@ -41,7 +42,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     (event) => {
       const { key } = event
       if (key === 'logout' && user) {
-        setUser({ ...user, logged: false })
+        // setUser({ ...user, logged: false })
+        Storage.remove('accessToken')
         loginOut()
         return
       }

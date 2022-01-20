@@ -5,6 +5,7 @@ import { notification } from 'antd'
 import { createBrowserHistory } from 'history'
 import { useQuery, useMutation } from 'react-query'
 import qs from 'qs'
+import Storage from './Storage'
 
 const history = createBrowserHistory()
 
@@ -18,8 +19,7 @@ const axios = Axios.create({
 })
 
 axios.interceptors.request.use((config) => {
-  // Read token for anywhere, in this case directly from localStorage
-  const token = localStorage.getItem('token')
+  const token = Storage.get('token', false)
   if (token) {
     config.headers = { Authorization: `Bearer ${token}` }
   }
@@ -163,7 +163,7 @@ interface listParams {
 const useGetList = <T>(key: string, url: string, pagination?: any, filters?: any, sorter?: any) => {
   const axios = useAxios()
 
-  const service = async() => {
+  const service = async () => {
     let params: listParams = {}
 
     params = { ...transformPagination(pagination) }
@@ -188,7 +188,7 @@ const useGetList = <T>(key: string, url: string, pagination?: any, filters?: any
 const useGetOne = <T>(key: string, url: string, params?: any) => {
   const axios = useAxios()
 
-  const service = async() => {
+  const service = async () => {
     const data: T = await axios.get(`${url}`, params)
 
     return data
@@ -198,7 +198,7 @@ const useGetOne = <T>(key: string, url: string, params?: any) => {
 
 const useCreate = <T, U>(url: string) => {
   const axios = useAxios()
-  return useMutation(async(params: T) => {
+  return useMutation(async (params: T) => {
     const data: U = await axios.post(`${url}`, params)
     return data
   })
@@ -206,7 +206,7 @@ const useCreate = <T, U>(url: string) => {
 
 const useUpdate = <T>(url: string) => {
   const axios = useAxios()
-  return useMutation(async(item: T) => {
+  return useMutation(async (item: T) => {
     const data: T = await axios.patch(`${url}`, item)
     return data
   })
@@ -214,7 +214,7 @@ const useUpdate = <T>(url: string) => {
 
 const useDelete = <T>(url: string) => {
   const axios = useAxios()
-  return useMutation(async(id: number) => {
+  return useMutation(async (id: number) => {
     const data: T = await axios.delete(`${url}?id=${id}`)
     return data
   })
@@ -222,7 +222,7 @@ const useDelete = <T>(url: string) => {
 
 const useBatch = (url: string) => {
   const axios = useAxios()
-  return useMutation(async(ids: number[]) => {
+  return useMutation(async (ids: number[]) => {
     const data = await axios.post(`${url}`, { idList: ids })
     return data
   })

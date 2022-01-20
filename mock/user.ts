@@ -5,7 +5,9 @@ const mockMenuList = [
     path: '/dashboard',
     name: '面板',
     locale: 'menu.dashboard',
-    icon: 'heart'
+    icon: 'heart',
+    level: 1,
+    hidden: false
   },
   // {
   //   path: '/permission',
@@ -26,24 +28,28 @@ const mockMenuList = [
     name: 'systemManagement',
     locale: 'menu.system',
     icon: 'smile',
+    level: 1,
     children: [
       {
         path: '/system/authority',
         name: 'authority',
         locale: 'menu.system.authority',
         icon: 'smile',
+        level: 2,
         children: [
           {
             path: '/system/authority/interface',
             name: 'interfaceManagement',
             locale: 'menu.system.authority.interface',
-            icon: 'smile'
+            icon: 'smile',
+            level: 3
           },
           {
             path: '/system/authority/menu',
             name: 'menuManagement',
             locale: 'menu.system.authority.menu',
-            icon: 'smile'
+            icon: 'smile',
+            level: 3
           }
         ]
       }
@@ -54,26 +60,23 @@ const mockMenuList = [
     name: 'orderManage',
     locale: 'menu.order',
     icon: 'smile',
+    level: 1,
     children: [
       {
         path: 'domestic',
         name: 'domestic',
         locale: 'menu.order.domestic',
-        icon: 'smile'
+        icon: 'smile',
+        level: 2
       },
       {
         path: 'international',
         name: 'international',
         locale: 'menu.order.international',
-        icon: 'smile'
+        icon: 'smile',
+        level: 2
       }
     ]
-  },
-  {
-    path: '/404',
-    name: '404',
-    locale: 'menu.notfound',
-    icon: 'frown'
   }
 ]
 

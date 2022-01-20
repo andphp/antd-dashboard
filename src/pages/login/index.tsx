@@ -14,6 +14,7 @@ import loginPng from '@/assets/login/login.png'
 import { ReactComponent as LogoSvg } from '@/assets/logo/logo.svg'
 import { useLocale } from '@/locales'
 import SelectLang from '../layout/components/RightContent/SelectLang'
+import Storage from '@/utils/Storage'
 const initialValues: LoginParams = {
   username: 'guest',
   password: '1232344',
@@ -32,9 +33,8 @@ const LoginForm: FC = () => {
     console.log('result: ', result)
 
     if (result) {
-      localStorage.setItem('token', result.accessToken)
-      // localStorage.setItem('username', result.username)
-
+      // localStorage.setItem('token', result.accessToken)
+      Storage.set('accessToken', result.accessToken, 60 * 60 * 24 * 2)
       const from = location.state?.from || { pathname: '/dashboard' }
       navigate(from)
     }
@@ -80,7 +80,7 @@ const LoginForm: FC = () => {
                   <Input className={styles.antInput} type='password' size='large' autoComplete='on' placeholder={formatMessage({ id: 'login.form.password' })} prefix={<LockOutlined style={{ color: '#1890ff' }} />} />
                 </Form.Item>
                 <Form.Item name='remember' valuePropName='checked'>
-                  <Checkbox>{formatMessage({ id: 'login.form.remember.checkbox' })}</Checkbox>
+                  <Checkbox>{ formatMessage({ id: 'login.form.remember.checkbox' })}</Checkbox>
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ span: 24 }}>

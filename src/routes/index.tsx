@@ -44,7 +44,7 @@ const routeList: RouteObject[] = [
         children: [
           {
             path: 'authority',
-            element: <WrapperRouteComponent path='/system/authority' render={() => <Outlet />}/>,
+            element: <WrapperRouteComponent auth={true} path='/system/authority' render={() => <Outlet />}/>,
             children: [
               {
                 path: 'menu',
@@ -69,7 +69,7 @@ const routeList: RouteObject[] = [
             element: lazyLoad(<WrapperRouteComponent path='/order/international' render={props => <InternationalOrderPage { ...props }/>}/>)
           }, {
             path: '*',
-            element: <div>ddss</div>
+            element: <NotFound />
           }
         ]
       },
