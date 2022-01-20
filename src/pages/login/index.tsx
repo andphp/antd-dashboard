@@ -16,8 +16,8 @@ import { useLocale } from '@/locales'
 import SelectLang from '../layout/components/RightContent/SelectLang'
 const initialValues: LoginParams = {
   username: 'guest',
-  password: '1232344'
-  // remember: true
+  password: '1232344',
+  remember: true
 }
 
 const LoginForm: FC = () => {
