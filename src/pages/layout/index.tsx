@@ -17,7 +17,7 @@ import TopLevelMenuPage from './components/TopLevelMenuPage'
 import styles from './index.module.less'
 import _ from 'lodash'
 import memoized from 'nano-memoize'
-import { getMenuState, setMenuState } from '@/stores/menu'
+import { GetMenuListState, SetMenuListState } from '@/stores/menu'
 const history = createBrowserHistory()
 
 const IconMap: { [key: string]: React.ReactNode } = {
@@ -39,6 +39,10 @@ const LayoutPage: FC = ({ children }) => {
   const { formatMessage } = useLocale()
   useEffect(() => {
     console.log('llocat', location)
+    // 初始化菜单路由
+    if (GetMenuListState(location.pathname) === null) {
+      initMenuList(location.pathname, menuList)
+    }
     if (location.pathname === '/') {
       navigate('/dashboard')
     }
@@ -48,18 +52,19 @@ const LayoutPage: FC = ({ children }) => {
     setUser({ ...user, collapsed: !collapsed })
   }
 
-  const initMenuListAll = (menu: MenuList) => {
-    const MenuListAll: MenuChild[] = []
-    menu.forEach((m) => {
-      if (!m?.children?.length) {
-        MenuListAll.push(m)
-      } else {
-        m?.children.forEach((mu) => {
-          MenuListAll.push(mu)
-        })
+  // 初始化菜单路由
+  const initMenuList = (pathname: string, menuList: any[] | undefined) => {
+    if (!menuList) return false
+    menuList.forEach((m) => {
+      if (m?.path == pathname) {
+        SetMenuListState(pathname, m)
+        return true
+      }
+      if (m?.children?.length) {
+        return initMenuList(pathname, m.children)
       }
     })
-    return MenuListAll
+    return false
   }
 
   useEffect(() => {

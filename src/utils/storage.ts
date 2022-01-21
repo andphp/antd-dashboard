@@ -61,7 +61,6 @@ export const createStorage = ({ prefixKey = '', storage = localStorage } = {}) =
      * @param {string} key
      */
     remove(key: string) {
-      console.log(key, '搜索')
       this.storage.removeItem(this.getKey(key))
     }
 
@@ -114,7 +113,7 @@ export const createStorage = ({ prefixKey = '', storage = localStorage } = {}) =
     clearCookie(): void {
       const keys = document.cookie.match(/[^ =;]+(?==)/g)
       if (keys) {
-        for (let i = keys.length; i--; ) {
+        for (let i = keys.length; i--;) {
           document.cookie = keys[i] + '=0;expire=' + new Date(0).toUTCString()
         }
       }

@@ -9,10 +9,14 @@ export const menuListState = atom({
 
 export const MenuListState = createStorage({ prefixKey: 'menuListState', storage: sessionStorage })
 
-export const setMenuListState = (path: string, data: any) => {
+export const SetMenuListState = (path: string, data: any) => {
   return MenuListState.set(path, data)
 }
 
-export const getMenuListState = (path: string) => {
+export const GetMenuListState = (path: string) => {
   return MenuListState.get(path)
+}
+
+export const DelMenuList = () => {
+  return MenuListState.remove('*')
 }
