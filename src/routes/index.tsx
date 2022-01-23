@@ -5,7 +5,7 @@ import LoginPage from '@/pages/login'
 // import SystemPage from '@/pages/system'
 import LayoutPage from '@/pages/layout'
 import WrapperRouteComponent from './config'
-import { useRoutes, RouteObject, Navigate, Outlet } from 'react-router-dom'
+import { useRoutes, RouteObject, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Spin } from 'antd'
 
 // TODO: lazy加载组件，prolayout的菜单无法自动选中菜单项，原因不明
@@ -22,12 +22,16 @@ import NotFound from '@/pages/404'
 // import InternationalOrderPage from '@/pages/order/international/index'
 import OrderPage from '@/pages/order/index'
 import NProgressWithNode from '@/components/nProgress'
+import { GetMenuListState, SetMenuListState } from '@/stores/menu'
+import { useGetCurrentMenus } from '@/api'
 
 const lazyLoad = (children: ReactNode): ReactNode => {
   return <Suspense fallback={<Spin tip={ `加载中、、、` }/> }>
     { children }
   </Suspense>
 }
+
+console.log('++++=====================================')
 
 const routeList: RouteObject[] = [
   {
@@ -44,14 +48,14 @@ const routeList: RouteObject[] = [
         children: [
           {
             path: 'authority',
-            element: <WrapperRouteComponent auth={true} path='/system/authority' render={() => <Outlet />}/>,
+            element: <Outlet />,
             children: [
               {
                 path: 'menu',
-                element: lazyLoad(<WrapperRouteComponent path='/system/authority/menu' render={props => <MenuManagement key='/system/authority/menu' index={true} { ...props }/>}/>)
+                element: lazyLoad(<MenuManagement key='/system/authority/menu'/>)
               }, {
                 path: 'interface',
-                element: lazyLoad(<WrapperRouteComponent path='/system/authority/interface' render={props => <InterfaceManagement key='/system/authority/interface' { ...props }/>}/>)
+                element: lazyLoad(<InterfaceManagement key='/system/authority/interface' />)
               }
             ]
           }
@@ -59,14 +63,14 @@ const routeList: RouteObject[] = [
       },
       {
         path: 'order',
-        element: <WrapperRouteComponent path='/order/domestic' render={() => <Outlet />}/>,
+        element: <WrapperRouteComponent path='/order/q' render={() => <Outlet />}/>,
         children: [
           {
             path: 'domestic',
-            element: lazyLoad(<WrapperRouteComponent path='/order/domestic' render={props => <DomesticOrderPage { ...props }/>}/>)
+            element: lazyLoad(<DomesticOrderPage />)
           }, {
             path: 'international',
-            element: lazyLoad(<WrapperRouteComponent path='/order/international' render={props => <InternationalOrderPage { ...props }/>}/>)
+            element: lazyLoad(<InternationalOrderPage />)
           }, {
             path: '*',
             element: <NotFound />
@@ -91,6 +95,7 @@ const routeList: RouteObject[] = [
 
 const RenderRouter: FC = () => {
   const element = useRoutes(routeList)
+
   return <NProgressWithNode path='/order/index' element={element }/>
 }
 

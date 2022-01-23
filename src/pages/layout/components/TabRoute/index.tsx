@@ -16,6 +16,8 @@ import {
 
 import { PageLoading } from '@ant-design/pro-layout'
 import { useGetCurrentMenus } from '@/api'
+import { IsTopLevelMenu } from '@/utils/helper'
+import { GetMenuListState, SetMenuListState } from '@/stores/menu'
 
 const { TabPane } = Tabs
 
@@ -31,17 +33,30 @@ const TabRoute = function() {
   const navigate = useNavigate()
 
   const tabList = useRef(new Map())
-  const { data: menuList, error } = useGetCurrentMenus()
-  const IsTopLevelMenu = (): boolean => {
+
+  const initMenuList = (pathname: string, menuList: any[] | undefined) => {
     if (!menuList) return false
-    const currentMenu = menuList.filter((menu) => (
-      menu.path.toLowerCase() === location.pathname && menu?.children?.length
-    ))
-    return currentMenu.length > 0
+    menuList.forEach((m) => {
+      if (m?.path == pathname) {
+        SetMenuListState(pathname, m)
+        return true
+      }
+      if (m?.children?.length) {
+        return initMenuList(pathname, m.children)
+      }
+    })
+    return false
   }
+  // 初始化菜单路由
+  const { data: menuList, error } = useGetCurrentMenus()
   // 确保tab
   const updateTabList = useCreation(() => {
     console.log('tablocation', location.pathname)
+    // 初始化菜单路由
+    if (GetMenuListState(location.pathname) === null) {
+      console.log('===5666s===')
+      initMenuList(location.pathname, menuList)
+    }
     const tab = tabList.current.get(location.pathname)
     const getFastTab = tabList.current.get('fastRouter')
     console.log('tab', tab)
@@ -64,7 +79,7 @@ const TabRoute = function() {
     if (getFastTab) {
       tabList.current.delete('fastRouter')
     }
-    if (IsTopLevelMenu()) {
+    if (IsTopLevelMenu(location.pathname)) {
       tabList.current.set('fastRouter', fastTab)
     } else if (tab) {
       if (tab.location.pathname !== location.pathname) {
@@ -73,7 +88,7 @@ const TabRoute = function() {
     } else {
       tabList.current.set(location.pathname, newTab)
     }
-    console.log('location.ddpathname', location.pathname)
+    console.log('tabroute.pathname', location.pathname)
   }, [location])
 
   const closeTab = useMemoizedFn((selectKey) => {

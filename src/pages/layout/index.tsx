@@ -13,7 +13,6 @@ import { useGuide } from '../guide/useGuide'
 import Footer from './components/Footer'
 import RightContent from './components/RightContent'
 import TabRoute from './components/TabRoute'
-import TopLevelMenuPage from './components/TopLevelMenuPage'
 import styles from './index.module.less'
 import _ from 'lodash'
 import memoized from 'nano-memoize'
@@ -39,10 +38,7 @@ const LayoutPage: FC = ({ children }) => {
   const { formatMessage } = useLocale()
   useEffect(() => {
     console.log('llocat', location)
-    // 初始化菜单路由
-    if (GetMenuListState(location.pathname) === null) {
-      initMenuList(location.pathname, menuList)
-    }
+
     if (location.pathname === '/') {
       navigate('/dashboard')
     }
@@ -52,32 +48,9 @@ const LayoutPage: FC = ({ children }) => {
     setUser({ ...user, collapsed: !collapsed })
   }
 
-  // 初始化菜单路由
-  const initMenuList = (pathname: string, menuList: any[] | undefined) => {
-    if (!menuList) return false
-    menuList.forEach((m) => {
-      if (m?.path == pathname) {
-        SetMenuListState(pathname, m)
-        return true
-      }
-      if (m?.children?.length) {
-        return initMenuList(pathname, m.children)
-      }
-    })
-    return false
-  }
-
   useEffect(() => {
     newUser && driverStart()
   }, [newUser])
-
-  const IsTopLevelMenu = (): boolean => {
-    if (!menuList) return false
-    const currentMenu = menuList.filter((menu) => (
-      menu.path.toLowerCase() === location.pathname && menu?.children?.length
-    ))
-    return currentMenu.length > 0
-  }
 
   const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
     if (!menus) return []
@@ -162,7 +135,6 @@ const LayoutPage: FC = ({ children }) => {
       }}
     >
       <TabRoute />
-      {/* { IsTopLevelMenu() ? <TopLevelMenuPage /> : <TabRoute />} */}
     </ProLayout>
   )
 }
