@@ -37,7 +37,7 @@ const LayoutPage: FC = ({ children }) => {
   const navigate = useNavigate()
   const { formatMessage } = useLocale()
   useEffect(() => {
-    console.log('llocat', location)
+    console.log('layout---useEffect', location)
 
     if (location.pathname === '/') {
       navigate('/dashboard')
@@ -134,7 +134,10 @@ const LayoutPage: FC = ({ children }) => {
         )
       }}
     >
-      <TabRoute />
+      <>
+        <TabRoute />
+        {console.log('layout---------------------------------------')}
+      </>
     </ProLayout>
   )
 }

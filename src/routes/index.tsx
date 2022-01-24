@@ -24,6 +24,7 @@ import OrderPage from '@/pages/order/index'
 import NProgressWithNode from '@/components/nProgress'
 import { GetMenuListState, SetMenuListState } from '@/stores/menu'
 import { useGetCurrentMenus } from '@/api'
+import TopLevelMenuPage from '@/pages/layout/components/TopLevelMenuPage'
 
 const lazyLoad = (children: ReactNode): ReactNode => {
   return <Suspense fallback={<Spin tip={ `加载中、、、` }/> }>
@@ -40,15 +41,19 @@ const routeList: RouteObject[] = [
     children: [
       {
         path: '/dashboard',
-        element: <WrapperRouteComponent path='/dashboard' render={ props => <Dashboard { ...props }/>} />
+        element: <WrapperRouteComponent path='/dashboard' level={1} render={ props => <Dashboard { ...props }/>} />
+      },
+      {
+        path: '/toplevelpage',
+        element: <TopLevelMenuPage frompath={'/toplevelpage'} />
       },
       {
         path: '/system',
-        element: <WrapperRouteComponent path='/system' render={() => <Outlet />}/>,
+        element: <WrapperRouteComponent path='/system' level={1} render={() => <Outlet />}/>,
         children: [
           {
             path: 'authority',
-            element: <Outlet />,
+            element: <>{console.log('==========-------------------------------auth')}<Outlet /></>,
             children: [
               {
                 path: 'menu',

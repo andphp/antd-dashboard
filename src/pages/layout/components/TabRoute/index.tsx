@@ -51,15 +51,15 @@ const TabRoute = function() {
   const { data: menuList, error } = useGetCurrentMenus()
   // 确保tab
   const updateTabList = useCreation(() => {
-    console.log('tablocation', location.pathname)
+    console.log('tabRoute=====', location.pathname)
     // 初始化菜单路由
     if (GetMenuListState(location.pathname) === null) {
-      console.log('===5666s===')
+      console.log('tabRoute===GetMenuListState===')
       initMenuList(location.pathname, menuList)
     }
     const tab = tabList.current.get(location.pathname)
     const getFastTab = tabList.current.get('fastRouter')
-    console.log('tab', tab)
+    console.log('tabRoute===tab', tab)
     const newTab = {
       name: location.pathname,
       key: location.pathname,
@@ -68,27 +68,15 @@ const TabRoute = function() {
       location,
       params
     }
-    const fastTab = {
-      name: '快捷导航',
-      key: location.pathname,
-      page: ele,
-      // access:routeConfig.access,
-      location,
-      params
-    }
-    if (getFastTab) {
-      tabList.current.delete('fastRouter')
-    }
-    if (IsTopLevelMenu(location.pathname)) {
-      tabList.current.set('fastRouter', fastTab)
-    } else if (tab) {
+
+    if (tab) {
       if (tab.location.pathname !== location.pathname) {
         tabList.current.set(location.pathname, newTab)
       }
     } else {
       tabList.current.set(location.pathname, newTab)
     }
-    console.log('tabroute.pathname', location.pathname)
+    console.log('tabRoute===tabroute.pathname', location.pathname)
   }, [location])
 
   const closeTab = useMemoizedFn((selectKey) => {
