@@ -11,16 +11,12 @@ export interface WrapperRouteProps extends RouteProps {
   /** authorization？ */
   auth?: boolean;
   render: FC<ReactNode>;
-  level?: number;
   path: string
 }
 
-const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, level, path, render, ...props }) => {
+const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, path, render, ...props }) => {
   // const { formatMessage } = useIntl()
-  console.log('route-09090====level', level, path)
-  if (level && level === 1) {
-    return <TopLevelMenuPage frompath={path} />
-  }
+
   const WitchRoute = auth ? <PrivateRoute render={ render}/> : render({ ...props })
 
   // return render({ ...props })
