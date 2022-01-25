@@ -1,5 +1,5 @@
 import React, { useRef, Suspense } from 'react'
-import { Tabs } from 'antd'
+import { Button, Tabs } from 'antd'
 
 import _ from 'lodash'
 import { useMemoizedFn, useCreation } from 'ahooks'
@@ -12,12 +12,12 @@ import {
   useParams,
   Params
 } from 'react-router-dom'
-
+import { ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons'
 import { PageLoading } from '@ant-design/pro-layout'
 import { useGetCurrentMenus } from '@/api'
 import { GetMenuListState, SetMenuListState } from '@/stores/menu'
 import { useLocale } from '@/locales'
-
+import screenfull from 'screenfull'
 const { TabPane } = Tabs
 const getTabPath = (tab: { location: { pathname: string }; params: Params<string> | undefined }) => generatePath(tab.location.pathname, tab.params)
 const TabRoute = function() {
@@ -44,6 +44,12 @@ const TabRoute = function() {
       }
     })
     return false
+  }
+
+  const screenfullToggle = () => {
+    if (screenfull.isEnabled) {
+      screenfull.toggle()
+    }
   }
   // 初始化菜单路由
   const { data: menuList, error } = useGetCurrentMenus()
@@ -93,9 +99,7 @@ const TabRoute = function() {
   }, [location])
 
   const closeTab = useMemoizedFn((selectKey) => {
-    // 记录原真实路由,微前端可能修改
     if (tabList.current.size >= 2) {
-      // tabList.current.delete(getTabMapKey(selectKey))
       tabList.current.delete(selectKey)
       const nextKey = _.last(Array.from(tabList.current.keys()))
       navigate(getTabPath(tabList.current.get(nextKey)), { replace: true })
@@ -103,24 +107,28 @@ const TabRoute = function() {
   })
 
   const selectTab = useMemoizedFn((selectKey) => {
-    // 记录原真实路由,微前端可能修改
-    // navigate(getTabPath(tabList.current.get(getTabMapKey(selectKey))), {
-
     navigate(getTabPath(tabList.current.get(selectKey)), {
       replace: true
     })
   })
 
+  const operations = {
+    left: <Button>《</Button>, right: <>
+      <Button>》</Button>
+      <Button>O  </Button>
+      <Button type='link' icon={screenfull.isFullscreen ? <ShrinkOutlined/> : <ArrowsAltOutlined/>} onClick={screenfullToggle}/>
+      <Button>X </Button>
+    </>
+  }
+
   return (<Tabs
-    // className={styles.tabs}
-    // activeKey={generTabKey(location, matchPath)}
     activeKey={location.pathname}
     onChange={(key) => selectTab(key)}
-    // tabBarExtraContent={operations}
+    tabBarExtraContent={operations}
     tabBarStyle={{ background: '#fff' }}
     tabPosition='top'
     animated
-    tabBarGutter={-1}
+    tabBarGutter={0}
     hideAdd
     type='editable-card'
     onEdit={(targetKey) => closeTab(targetKey)}
