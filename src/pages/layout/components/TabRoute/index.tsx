@@ -16,6 +16,7 @@ import {
 import { PageLoading } from '@ant-design/pro-layout'
 import { useGetCurrentMenus } from '@/api'
 import { GetMenuListState, SetMenuListState } from '@/stores/menu'
+import { useLocale } from '@/locales'
 
 const { TabPane } = Tabs
 const getTabPath = (tab: { location: { pathname: string }; params: Params<string> | undefined }) => generatePath(tab.location.pathname, tab.params)
@@ -29,6 +30,7 @@ const TabRoute = function() {
   const navigate = useNavigate()
 
   const tabList = useRef(new Map())
+  const { formatMessage } = useLocale()
 
   const initMenuList = (pathname: string, menuList: any[] | undefined) => {
     if (!menuList) return false
@@ -53,8 +55,12 @@ const TabRoute = function() {
     }
 
     const tab = tabList.current.get(location.pathname)
+    const currentPath = GetMenuListState(location.pathname)
+
     const newTab = {
-      name: location.pathname,
+      name: currentPath ? (
+        currentPath.locale ? formatMessage({ id: currentPath.locale }) : currentPath.name
+      ) : location.pathname,
       key: location.pathname,
       page: ele,
       // access:routeConfig.access,
@@ -66,8 +72,8 @@ const TabRoute = function() {
     if (getFastTab !== null) {
       tabList.current.delete('fastRouter')
     }
-    const currentPath = GetMenuListState(location.pathname)
-    if (currentPath && currentPath?.level === 1) {
+
+    if (currentPath && currentPath.path.split('/').length - 1 === 1) {
       const topMenuPageTab = {
         name: '快捷导航',
         key: location.pathname,

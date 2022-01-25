@@ -61,14 +61,14 @@ const mockMenuList = [
     level: 1,
     children: [
       {
-        path: 'domestic',
+        path: '/order/domestic',
         name: 'domestic',
         locale: 'menu.order.domestic',
         icon: 'smile',
         level: 2
       },
       {
-        path: 'international',
+        path: '/order/international',
         name: 'international',
         locale: 'menu.order.international',
         icon: 'smile',
