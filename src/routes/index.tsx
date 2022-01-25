@@ -49,7 +49,7 @@ const routeList: RouteObject[] = [
       },
       {
         path: '/system',
-        element: <WrapperRouteComponent path='/system' level={1} render={() => <Outlet />}/>,
+        element: <WrapperRouteComponent path='/system' render={() => <Outlet />}/>,
         children: [
           {
             path: 'authority',
@@ -72,7 +72,7 @@ const routeList: RouteObject[] = [
       },
       {
         path: 'order',
-        element: <WrapperRouteComponent path='/order' level={1} render={() => <Outlet />}/>,
+        element: <WrapperRouteComponent path='/order' render={() => <Outlet />}/>,
         children: [
           {
             path: 'domestic',
