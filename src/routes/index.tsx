@@ -49,11 +49,11 @@ const routeList: RouteObject[] = [
       },
       {
         path: '/system',
-        element: <WrapperRouteComponent path='/system' render={() => <Outlet />}/>,
+        element: <WrapperRouteComponent path='/system' level={1} render={() => <Outlet />}/>,
         children: [
           {
             path: 'authority',
-            element: <>{console.log('==========-------------------------------auth')}<Outlet /></>,
+            element: <Outlet />,
             children: [
               {
                 path: 'menu',
@@ -63,12 +63,16 @@ const routeList: RouteObject[] = [
                 element: lazyLoad(<InterfaceManagement key='/system/authority/interface' />)
               }
             ]
+          },
+          {
+            path: 'domestic',
+            element: lazyLoad(<DomesticOrderPage />)
           }
         ]
       },
       {
         path: 'order',
-        element: <WrapperRouteComponent path='/order/q' render={() => <Outlet />}/>,
+        element: <WrapperRouteComponent path='/order' level={1} render={() => <Outlet />}/>,
         children: [
           {
             path: 'domestic',

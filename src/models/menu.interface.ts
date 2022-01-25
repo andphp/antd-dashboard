@@ -1,4 +1,5 @@
 interface MenuItem {
+  locale?: string
   /** menu item name */
   name: string
   /** menu labels */
@@ -17,8 +18,6 @@ interface MenuItem {
   path: string
   /** 子菜单 */
   children?: MenuItem[]
-  /** 菜单等级*/
-  level: number
   /** 是否隐藏 */
   hidden?: boolean
 }

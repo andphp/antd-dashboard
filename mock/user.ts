@@ -28,28 +28,26 @@ const mockMenuList = [
     name: 'systemManagement',
     locale: 'menu.system',
     icon: 'smile',
-    level: 1,
+
     children: [
       {
         path: '/system/authority',
         name: 'authority',
         locale: 'menu.system.authority',
         icon: 'smile',
-        level: 2,
+
         children: [
           {
             path: '/system/authority/interface',
             name: 'interfaceManagement',
             locale: 'menu.system.authority.interface',
-            icon: 'smile',
-            level: 3
+            icon: 'smile'
           },
           {
             path: '/system/authority/menu',
             name: 'menuManagement',
             locale: 'menu.system.authority.menu',
-            icon: 'smile',
-            level: 3
+            icon: 'smile'
           }
         ]
       }

@@ -10,20 +10,15 @@ import {
   useLocation,
   generatePath,
   useParams,
-  Params,
-  Outlet
+  Params
 } from 'react-router-dom'
 
 import { PageLoading } from '@ant-design/pro-layout'
 import { useGetCurrentMenus } from '@/api'
-import { IsTopLevelMenu } from '@/utils/helper'
 import { GetMenuListState, SetMenuListState } from '@/stores/menu'
-import TopLevelMenuPage from '../TopLevelMenuPage'
 
 const { TabPane } = Tabs
-
 const getTabPath = (tab: { location: { pathname: string }; params: Params<string> | undefined }) => generatePath(tab.location.pathname, tab.params)
-
 const TabRoute = function() {
   const ele = useOutlet()
 
@@ -52,16 +47,12 @@ const TabRoute = function() {
   const { data: menuList, error } = useGetCurrentMenus()
   // 确保tab
   const updateTabList = useCreation(() => {
-    console.log('tabRoute=====', location.pathname)
     // 初始化菜单路由
     if (GetMenuListState(location.pathname) === null) {
-      console.log('tabRoute===GetMenuListState===')
       initMenuList(location.pathname, menuList)
     }
 
     const tab = tabList.current.get(location.pathname)
-    const getFastTab = tabList.current.get('fastRouter')
-    console.log('tabRoute===tab', tab)
     const newTab = {
       name: location.pathname,
       key: location.pathname,
@@ -71,44 +62,29 @@ const TabRoute = function() {
       params
     }
 
-    if (tab) {
+    const getFastTab = tabList.current.get('fastRouter')
+    if (getFastTab !== null) {
+      tabList.current.delete('fastRouter')
+    }
+    const currentPath = GetMenuListState(location.pathname)
+    if (currentPath && currentPath?.level === 1) {
+      const topMenuPageTab = {
+        name: '快捷导航',
+        key: location.pathname,
+        page: ele,
+        // access:routeConfig.access,
+        location,
+        params
+      }
+      tabList.current.set('fastRouter', topMenuPageTab)
+    } else if (tab) {
       if (tab.location.pathname !== location.pathname) {
         tabList.current.set(location.pathname, newTab)
       }
     } else {
       tabList.current.set(location.pathname, newTab)
     }
-    console.log('tabRoute===tabroute.pathname', location.pathname)
   }, [location])
-
-  const reanderNode = () => {
-    const currentPath = GetMenuListState(location.pathname)
-    if (currentPath && currentPath?.level === 1) {
-      console.log('currentPath=+++++', currentPath)
-      return (<TopLevelMenuPage frompath={currentPath.path} />)
-    } else {
-      return (<Tabs
-        // className={styles.tabs}
-        // activeKey={generTabKey(location, matchPath)}
-        activeKey={location.pathname}
-        onChange={(key) => selectTab(key)}
-        // tabBarExtraContent={operations}
-        tabBarStyle={{ background: '#fff' }}
-        tabPosition='top'
-        animated
-        tabBarGutter={-1}
-        hideAdd
-        type='editable-card'
-        onEdit={(targetKey) => closeTab(targetKey)}
-      >
-        {[...tabList.current.values()].map((item) => (
-          <TabPane style={{ paddingLeft: '16px' }} tab={item.name} key={item.key}>
-            <Suspense fallback={<PageLoading />}>{item.page}</Suspense>
-          </TabPane>
-        ))}
-      </Tabs>)
-    }
-  }
 
   const closeTab = useMemoizedFn((selectKey) => {
     // 记录原真实路由,微前端可能修改
@@ -123,12 +99,32 @@ const TabRoute = function() {
   const selectTab = useMemoizedFn((selectKey) => {
     // 记录原真实路由,微前端可能修改
     // navigate(getTabPath(tabList.current.get(getTabMapKey(selectKey))), {
+
     navigate(getTabPath(tabList.current.get(selectKey)), {
       replace: true
     })
   })
 
-  return reanderNode()
+  return (<Tabs
+    // className={styles.tabs}
+    // activeKey={generTabKey(location, matchPath)}
+    activeKey={location.pathname}
+    onChange={(key) => selectTab(key)}
+    // tabBarExtraContent={operations}
+    tabBarStyle={{ background: '#fff' }}
+    tabPosition='top'
+    animated
+    tabBarGutter={-1}
+    hideAdd
+    type='editable-card'
+    onEdit={(targetKey) => closeTab(targetKey)}
+  >
+    {[...tabList.current.values()].map((item) => (
+      <TabPane style={{ paddingLeft: '16px' }} tab={item.name} key={item.key}>
+        <Suspense fallback={<PageLoading />}>{item.page}</Suspense>
+      </TabPane>
+    ))}
+  </Tabs>)
 }
 
 export default TabRoute

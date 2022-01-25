@@ -1,13 +1,12 @@
 import { useGetCurrentMenus } from '@/api'
 import { useLocale } from '@/locales'
-import { MenuChild, MenuList } from '@/models/menu.interface'
 import { userState } from '@/stores/user'
 import { FrownOutlined, HeartOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined } from '@ant-design/icons'
 import type { MenuDataItem } from '@ant-design/pro-layout'
 import ProLayout from '@ant-design/pro-layout'
 import { createBrowserHistory } from 'history'
 import React, { FC, useEffect, useState } from 'react'
-import { Link, matchRoutes, Outlet, RouteObject, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { useGuide } from '../guide/useGuide'
 import Footer from './components/Footer'
@@ -15,8 +14,7 @@ import RightContent from './components/RightContent'
 import TabRoute from './components/TabRoute'
 import styles from './index.module.less'
 import _ from 'lodash'
-import memoized from 'nano-memoize'
-import { GetMenuListState, SetMenuListState } from '@/stores/menu'
+
 const history = createBrowserHistory()
 
 const IconMap: { [key: string]: React.ReactNode } = {
@@ -37,8 +35,6 @@ const LayoutPage: FC = ({ children }) => {
   const navigate = useNavigate()
   const { formatMessage } = useLocale()
   useEffect(() => {
-    console.log('layout---useEffect', location)
-
     if (location.pathname === '/') {
       navigate('/dashboard')
     }
@@ -134,10 +130,7 @@ const LayoutPage: FC = ({ children }) => {
         )
       }}
     >
-      <>
-        <TabRoute />
-        {console.log('layout---------------------------------------')}
-      </>
+      <TabRoute />
     </ProLayout>
   )
 }
