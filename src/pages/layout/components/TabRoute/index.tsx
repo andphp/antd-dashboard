@@ -12,15 +12,15 @@ import {
   useParams,
   Params
 } from 'react-router-dom'
-import { ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons'
+import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons'
 import { PageLoading } from '@ant-design/pro-layout'
 import { useGetCurrentMenus } from '@/api'
 import { GetMenuListState, SetMenuListState } from '@/stores/menu'
 import { useLocale } from '@/locales'
-import screenfull from 'screenfull'
+
 const { TabPane } = Tabs
 const getTabPath = (tab: { location: { pathname: string }; params: Params<string> | undefined }) => generatePath(tab.location.pathname, tab.params)
-const TabRoute = function() {
+const TabRoute = function(clickChange, isShow) {
   const ele = useOutlet()
 
   const location = useLocation()
@@ -46,11 +46,6 @@ const TabRoute = function() {
     return false
   }
 
-  const screenfullToggle = () => {
-    if (screenfull.isEnabled) {
-      screenfull.toggle()
-    }
-  }
   // 初始化菜单路由
   const { data: menuList, error } = useGetCurrentMenus()
   // 确保tab
@@ -116,7 +111,7 @@ const TabRoute = function() {
     left: <Button>《</Button>, right: <>
       <Button>》</Button>
       <Button>O  </Button>
-      <Button type='link' icon={screenfull.isFullscreen ? <ShrinkOutlined/> : <ArrowsAltOutlined/>} onClick={screenfullToggle}/>
+      <Button type='link' icon={isShow ? <FullscreenOutlined /> : <FullscreenExitOutlined />} onClick={clickChange}/>
       <Button>X </Button>
     </>
   }

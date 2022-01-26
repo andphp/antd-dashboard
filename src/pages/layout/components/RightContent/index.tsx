@@ -35,6 +35,7 @@ const GlobalHeaderRight: React.FC = () => {
   }
 
   const screenfullToggle = () => {
+    console.log('screenfull', screenfull.isFullscreen)
     if (screenfull.isEnabled) {
       screenfull.toggle()
     }
@@ -92,6 +93,7 @@ const GlobalHeaderRight: React.FC = () => {
         </span>
       </HeaderDropdown>
       <Avatar />
+      {console.log('screenfull.isFullscreen', screenfull.isFullscreen)}
       <Button type='link' icon={screenfull.isFullscreen ? <ShrinkOutlined/> : <ArrowsAltOutlined/>} onClick={screenfullToggle}/>
       <SelectLang className={classes.action} />
 
