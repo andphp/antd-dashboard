@@ -18,6 +18,13 @@ const InterfaceManagement = lazy(() => import('@/pages/system/authority/interfac
 import NotFound from '@/pages/404'
 import NProgressWithNode from '@/components/nProgress'
 import TopLevelMenuPage from '@/pages/layout/components/TopLevelMenuPage'
+import Test1 from '@/pages/test1'
+import Test2 from '@/pages/test2'
+import Test3 from '@/pages/test3'
+import Test4 from '@/pages/test4'
+import Test5 from '@/pages/test5'
+import Test6 from '@/pages/test6'
+import Test7 from '@/pages/test7'
 
 const lazyLoad = (children: ReactNode): ReactNode => {
   return <Suspense fallback={<Spin tip={ `加载中、、、` }/> }>
@@ -56,8 +63,32 @@ const routeList: RouteObject[] = [
             ]
           },
           {
-            path: 'domestic',
-            element: lazyLoad(<DomesticOrderPage />)
+            path: 'test1',
+            element: lazyLoad(<Test1 />)
+          },
+          {
+            path: 'test2',
+            element: lazyLoad(<Test2 />)
+          },
+          {
+            path: 'test3',
+            element: lazyLoad(<Test3 />)
+          },
+          {
+            path: 'test4',
+            element: lazyLoad(<Test4 />)
+          },
+          {
+            path: 'test5',
+            element: lazyLoad(<Test5 />)
+          },
+          {
+            path: 'test6',
+            element: lazyLoad(<Test6 />)
+          },
+          {
+            path: 'test7',
+            element: lazyLoad(<Test7 />)
           }
         ]
       },

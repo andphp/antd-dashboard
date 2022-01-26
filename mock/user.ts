@@ -50,6 +50,48 @@ const mockMenuList = [
             icon: 'smile'
           }
         ]
+      },
+      {
+        path: '/system/test1',
+        name: 'test1',
+        locale: 'menu.system.authority.menu',
+        icon: 'smile'
+      },
+      {
+        path: '/system/test2',
+        name: 'test2',
+        locale: 'menu.system.authority.menu',
+        icon: 'smile'
+      },
+      {
+        path: '/system/test3',
+        name: 'test3',
+        locale: 'menu.system.authority.menu',
+        icon: 'smile'
+      },
+      {
+        path: '/system/test4',
+        name: 'test4',
+        locale: 'menu.system.authority.menu',
+        icon: 'smile'
+      },
+      {
+        path: '/system/test5',
+        name: 'test5',
+        locale: 'menu.system.authority.menu',
+        icon: 'smile'
+      },
+      {
+        path: '/system/test6',
+        name: 'test6',
+        locale: 'menu.system.authority.menu',
+        icon: 'smile'
+      },
+      {
+        path: '/system/test7',
+        name: 'test7',
+        locale: 'menu.system.authority.menu',
+        icon: 'smile'
       }
     ]
   },

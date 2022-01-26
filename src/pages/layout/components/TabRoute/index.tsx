@@ -1,4 +1,4 @@
-import React, { useRef, Suspense } from 'react'
+import React, { useRef, Suspense, useEffect } from 'react'
 import { Button, Tabs } from 'antd'
 
 import _ from 'lodash'
@@ -115,8 +115,21 @@ const TabRoute = function(clickChange: React.MouseEventHandler<HTMLElement> | un
       <Button>X </Button>
     </>
   }
+  const tabsDivId = useRef('dddddddddddddd')
+  useEffect(() => {
+    // 所有tabs标签宽度
+    const tabListWidth = document.getElementById(tabsDivId.current).children[0].children[0].children[0].clientWidth
+    // tabs 可视区域宽度
+    const tabsNavWidth = document.getElementById(tabsDivId.current).children[0].clientWidth
+    console.log('tabListWidth', tabListWidth)
+    console.log('tabsNavWidth', tabsNavWidth)
+    if (tabListWidth - tabsNavWidth > 0) {
+      console.log('ddddddddddddtablength', tabListWidth)
+    }
+  })
 
   return (<Tabs
+    id={tabsDivId.current}
     activeKey={location.pathname}
     onChange={(key) => selectTab(key)}
     tabBarExtraContent={operations}
