@@ -1,4 +1,4 @@
-import { Tag, Space, Menu, Button } from 'antd'
+import { Space, Menu, Button } from 'antd'
 import { QuestionCircleOutlined, ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons'
 import React, { useState, useEffect } from 'react'
 
@@ -10,16 +10,10 @@ import classes from './index.module.less'
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/stores/user'
 import SelectLang from './SelectLang'
-import { ReactComponent as LanguageSvg } from '@/assets/header/language.svg'
+
 import screenfull from 'screenfull'
 
 export type SiderTheme = 'light' | 'dark';
-
-const ENVTagColor = {
-  dev: 'orange',
-  test: 'green',
-  pre: '#87d068'
-}
 
 const GlobalHeaderRight: React.FC = () => {
   const user = useRecoilValue(userState)
@@ -33,13 +27,31 @@ const GlobalHeaderRight: React.FC = () => {
   ) {
     className = `${classes.right} ${classes.dark}`
   }
-
+  const [screenfullState, updateScreenfullState] = useState(false)
   const screenfullToggle = () => {
-    console.log('screenfull', screenfull.isFullscreen)
     if (screenfull.isEnabled) {
       screenfull.toggle()
     }
   }
+
+  const escFunction = () => {
+    updateScreenfullState(!screenfullState)
+  }
+
+  useEffect(() => {
+    // 监听退出全屏事件 --- chrome 用 esc 退出全屏并不会触发 keyup 事件
+    document.addEventListener('webkitfullscreenchange', escFunction) /* Chrome, Safari and Opera */
+    document.addEventListener('mozfullscreenchange', escFunction) /* Firefox */
+    document.addEventListener('fullscreenchange', escFunction) /* Standard syntax */
+    document.addEventListener('msfullscreenchange', escFunction) /* IE / Edge */
+    return () => {
+      // 销毁时清除监听
+      document.removeEventListener('webkitfullscreenchange', escFunction)
+      document.removeEventListener('mozfullscreenchange', escFunction)
+      document.removeEventListener('fullscreenchange', escFunction)
+      document.removeEventListener('MSFullscreenChange', escFunction)
+    }
+  })
 
   return (
     <Space className={className}>
@@ -93,8 +105,8 @@ const GlobalHeaderRight: React.FC = () => {
         </span>
       </HeaderDropdown>
       <Avatar />
-      {console.log('screenfull.isFullscreen', screenfull.isFullscreen)}
-      <Button type='link' icon={screenfull.isFullscreen ? <ShrinkOutlined/> : <ArrowsAltOutlined/>} onClick={screenfullToggle}/>
+
+      <Button type='link' icon={!screenfullState ? <ArrowsAltOutlined /> : <ShrinkOutlined />} onClick={screenfullToggle}/>
       <SelectLang className={classes.action} />
 
     </Space>

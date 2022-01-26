@@ -20,7 +20,7 @@ import { useLocale } from '@/locales'
 
 const { TabPane } = Tabs
 const getTabPath = (tab: { location: { pathname: string }; params: Params<string> | undefined }) => generatePath(tab.location.pathname, tab.params)
-const TabRoute = function(clickChange, isShow) {
+const TabRoute = function(clickChange: React.MouseEventHandler<HTMLElement> | undefined, isShow: undefined) {
   const ele = useOutlet()
 
   const location = useLocation()

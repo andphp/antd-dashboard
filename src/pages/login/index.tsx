@@ -13,7 +13,7 @@ import registerPng from '@/assets/login/register.png'
 import loginPng from '@/assets/login/login.png'
 import { ReactComponent as LogoSvg } from '@/assets/logo/logo.svg'
 import { useLocale } from '@/locales'
-import SelectLang from '../layout/components/RightContent/SelectLang'
+import SelectLang from '../layout/components/GlobalHeaderRight/SelectLang'
 import Storage from '@/utils/Storage'
 const initialValues: LoginParams = {
   username: 'guest',
