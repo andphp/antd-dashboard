@@ -39,7 +39,7 @@ const routeList: RouteObject[] = [
     children: [
       {
         path: '/dashboard',
-        element: <WrapperRouteComponent path='/dashboard' render={ props => <Dashboard { ...props }/>} />
+        element: <WrapperRouteComponent page={ true} path='/dashboard' render={ props => <Dashboard { ...props }/>} />
       },
       {
         path: '/toplevelmenupage',

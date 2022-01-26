@@ -7,11 +7,12 @@ export interface WrapperRouteProps extends RouteProps {
   auth?: boolean;
   render: FC<ReactNode>;
   path: string,
+  page?: boolean
 }
 
-const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, path, render, ...props }) => {
+const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, path, page, render, ...props }) => {
   const WitchRoute = auth ? <PrivateRoute render={ render}/> : render({ ...props })
-  if (path.split('/').length - 1 === 1 && location.pathname === path) {
+  if (path.split('/').length - 1 === 1 && !page && location.pathname === path) {
     return <TopLevelMenuPage frompath={path} />
   }
   return WitchRoute

@@ -1,4 +1,4 @@
-import React, { useRef, Suspense, useEffect } from 'react'
+import React, { useRef, Suspense, useEffect, useState } from 'react'
 import { Button, Tabs } from 'antd'
 
 import _ from 'lodash'
@@ -12,7 +12,7 @@ import {
   useParams,
   Params
 } from 'react-router-dom'
-import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons'
+import { FullscreenExitOutlined, FullscreenOutlined, VerticalRightOutlined, VerticalLeftOutlined, ColumnWidthOutlined, RedoOutlined } from '@ant-design/icons'
 import { PageLoading } from '@ant-design/pro-layout'
 import { useGetCurrentMenus } from '@/api'
 import { GetMenuListState, SetMenuListState } from '@/stores/menu'
@@ -74,7 +74,10 @@ const TabRoute = function(clickChange: React.MouseEventHandler<HTMLElement> | un
       tabList.current.delete('fastRouter')
     }
 
-    if (currentPath && currentPath.path.split('/').length - 1 === 1) {
+    if (currentPath === null) {
+      return null
+    }
+    if (currentPath.path.split('/').length - 1 === 1) {
       const topMenuPageTab = {
         name: '快捷导航',
         key: location.pathname,
@@ -107,24 +110,59 @@ const TabRoute = function(clickChange: React.MouseEventHandler<HTMLElement> | un
     })
   })
 
+  const tabsDivId = useRef('antd-tabs-menu')
+  const [showArrow, setShowArrow] = useState(false)
+  // 右箭头点击事件
+  const rightButton = () => {
+    const tabList = document.getElementById(tabsDivId.current).children[0].children[1].children[0]
+    const tabsNav = document.getElementById(tabsDivId.current).children[0].children[1]
+    // 计算偏移量
+    if (tabList.clientWidth > tabsNav.clientWidth) {
+      const translateX = Number(tabList.style.cssText.split('px')[0].split('(')[1]) - tabsNav.clientWidth
+      if (Math.abs(translateX) < (tabList.clientWidth - tabsNav.clientWidth)) {
+        tabList.style.cssText = 'transform: translate(' + translateX + 'px, 0px);'
+      } else {
+        tabList.style.cssText = 'transform: translate(' + -(tabList.clientWidth - tabsNav.clientWidth + 0) + 'px, 0px);'
+      }
+    }
+  }
+  // 左箭头点击事件
+  const leftButton = () => {
+    const tabList = document.getElementById(tabsDivId.current).children[0].children[1].children[0]
+    const tabsNav = document.getElementById(tabsDivId.current).children[0].children[1]
+    if (tabList.clientWidth > tabsNav.clientWidth) {
+      const translateX = Number(tabList.style.cssText.split('px')[0].split('(')[1]) + tabsNav.clientWidth
+
+      if (Math.abs(translateX) < (tabList.clientWidth - tabsNav.clientWidth) && translateX < 0) {
+        tabList.style.cssText = 'transform: translate(' + translateX + 'px, 0px);'
+      } else {
+        tabList.style.cssText = 'transform: translate(' + 0 + 'px, 0px);'
+      }
+    }
+  }
   const operations = {
-    left: <Button>《</Button>, right: <>
-      <Button>》</Button>
-      <Button>O  </Button>
-      <Button type='link' icon={isShow ? <FullscreenOutlined /> : <FullscreenExitOutlined />} onClick={clickChange}/>
-      <Button>X </Button>
+    left: <>
+      {showArrow ? <Button type='link' icon={ <VerticalRightOutlined />} onClick={leftButton} /> : ''}
+    </>,
+    right: <>
+      {showArrow ? <Button type='link' icon={ <VerticalLeftOutlined />} onClick={rightButton} /> : ''}
+      <Button type='link' icon={<ColumnWidthOutlined />} />
+      <Button type='link' icon={<RedoOutlined />} />
+      <Button style={{ marginRight: '8px' }} type='link' icon={isShow ? <FullscreenOutlined /> : <FullscreenExitOutlined />} onClick={clickChange}/>
     </>
   }
-  const tabsDivId = useRef('dddddddddddddd')
+
   useEffect(() => {
     // 所有tabs标签宽度
-    const tabListWidth = document.getElementById(tabsDivId.current).children[0].children[0].children[0].clientWidth
+    const tabListWidth = document.getElementById(tabsDivId.current).children[0].children[1].children[0].clientWidth
     // tabs 可视区域宽度
-    const tabsNavWidth = document.getElementById(tabsDivId.current).children[0].clientWidth
-    console.log('tabListWidth', tabListWidth)
-    console.log('tabsNavWidth', tabsNavWidth)
+    const tabsNavWidth = document.getElementById(tabsDivId.current).children[0].children[1].clientWidth
+    // console.log('tabListWidth', tabListWidth)
+    // console.log('tabsNavWidth', tabsNavWidth)
     if (tabListWidth - tabsNavWidth > 0) {
-      console.log('ddddddddddddtablength', tabListWidth)
+      setShowArrow(true)
+    } else {
+      setShowArrow(false)
     }
   })
 

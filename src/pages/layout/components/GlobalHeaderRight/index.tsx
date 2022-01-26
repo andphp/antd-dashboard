@@ -104,11 +104,10 @@ const GlobalHeaderRight: React.FC = () => {
           <QuestionCircleOutlined />
         </span>
       </HeaderDropdown>
-      <Avatar />
 
       <Button type='link' icon={!screenfullState ? <ArrowsAltOutlined /> : <ShrinkOutlined />} onClick={screenfullToggle}/>
       <SelectLang className={classes.action} />
-
+      <Avatar />
     </Space>
   )
 }
