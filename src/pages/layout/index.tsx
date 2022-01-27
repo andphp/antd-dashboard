@@ -61,12 +61,12 @@ const LayoutPage: FC = ({ children }) => {
 
     return m
   }
-  const [isShow, setIsShow] = useState(true)
+  const [showMaximize, setShowMaximize] = useState(true)
 
-  const clickChange = () => {
-    setIsShow(!isShow)
+  const clickChangeMaximize = () => {
+    setShowMaximize(!showMaximize)
   }
-  const contentStyle = (isShow ? ({ margin: 0 }) : {
+  const contentStyle = (showMaximize ? ({ margin: 0 }) : {
     margin: 0,
     position: 'fixed',
     left: 0,
@@ -143,7 +143,7 @@ const LayoutPage: FC = ({ children }) => {
       )
     }}
   >
-    {TabRoute(clickChange, isShow)}
+    {TabRoute(clickChangeMaximize, showMaximize)}
   </ProLayout>
   )
 

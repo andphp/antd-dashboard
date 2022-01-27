@@ -1,5 +1,5 @@
 import { Space, Menu, Button } from 'antd'
-import { QuestionCircleOutlined, ArrowsAltOutlined, ShrinkOutlined } from '@ant-design/icons'
+import { QuestionCircleOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons'
 import React, { useState, useEffect } from 'react'
 
 import Avatar from './AvatarDropdown'
@@ -105,7 +105,7 @@ const GlobalHeaderRight: React.FC = () => {
         </span>
       </HeaderDropdown>
 
-      <Button type='link' icon={!screenfullState ? <ArrowsAltOutlined /> : <ShrinkOutlined />} onClick={screenfullToggle}/>
+      <Button type='link' icon={!screenfullState ? <FullscreenOutlined /> : <FullscreenExitOutlined />} onClick={screenfullToggle}/>
       <SelectLang className={classes.action} />
       <Avatar />
     </Space>
