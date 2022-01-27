@@ -20,6 +20,8 @@ interface MenuItem {
   children?: MenuItem[]
   /** 是否隐藏 */
   hidden?: boolean
+  /** 类型 page/outlink/nav.. */
+  type?: string
 }
 
 export type MenuChild = Omit<MenuItem, 'children'>

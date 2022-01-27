@@ -6,7 +6,7 @@ const mockMenuList = [
     name: '面板',
     locale: 'menu.dashboard',
     icon: 'heart',
-    level: 1,
+    type: 'page',
     hidden: false
   },
   // {

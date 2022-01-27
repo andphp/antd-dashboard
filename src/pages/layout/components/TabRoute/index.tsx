@@ -52,19 +52,19 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
   const updateTabList = useCreation(() => {
     // 初始化菜单路由
     const getMenuListState = GetMenuListState(location.pathname)
-    console.log('GetMenuListState(location.pathname)', getMenuListState)
+    console.log('----------sssssssssss--------')
     if (getMenuListState === null || getMenuListState === undefined) {
       initMenuList(location.pathname, menuList)
     }
 
-    const tab = tabList.current.get(location.pathname + location.search)
+    const tab = tabList.current.get(location.pathname)
     const currentPath = GetMenuListState(location.pathname)
-    console.log('--------sssss==sss=', currentPath)
+
     const newTab = {
       name: currentPath ? (
         currentPath.locale ? formatMessage({ id: currentPath.locale }) : currentPath.name
       ) : location.pathname,
-      key: location.pathname + location.search,
+      key: location.pathname,
       page: ele,
       // access:routeConfig.access,
       location,
@@ -75,38 +75,37 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
     if (getFastTab !== null) {
       tabList.current.delete('fastRouter')
     }
-    console.log('5555 6666666', location)
-    console.log('currentPath111', currentPath)
-    if (currentPath !== null && currentPath !== undefined) {
-      console.log('currentPath2222', currentPath)
-      if (currentPath.path && currentPath.path.split('/').length - 1 === 1) {
-        const topMenuPageTab = {
-          name: '快捷导航',
-          key: location.pathname,
-          page: ele,
-          // access:routeConfig.access,
-          location,
-          params
-        }
-        tabList.current.set('fastRouter', topMenuPageTab)
-      } else if ((currentPath.search || currentPath.search === '') && currentPath.search !== location.search) {
-        console.log('diff 6666666', location.pathname + location.search)
-        tabList.current.set(location.pathname + location.search, newTab)
-        tabList.current.delete(currentPath.path + currentPath.search)
-      } else if (!tab) {
-        tabList.current.set(location.pathname + location.search, newTab)
+
+    if (!currentPath || currentPath === undefined) {
+      if ((!tab || tab === undefined) && location.pathname !== '/') {
+        tabList.current.set(location.pathname, newTab)
       }
-      SetMenuListState(location.pathname, { ...currentPath, search: location.search })
-    } else if (!tab) {
-      tabList.current.set(location.pathname + location.search, newTab)
-      SetMenuListState(location.pathname, { ...currentPath, search: location.search })
+    } else {
+      const topMenuPageTab = {
+        name: '快捷导航',
+        key: location.pathname,
+        page: ele,
+        // access:routeConfig.access,
+        location,
+        params
+      }
+      if ((currentPath.path && currentPath.path.split('/').length - 1 === 1) && (!currentPath.type || currentPath.type === undefined || currentPath.type === 'nav')) {
+        tabList.current.set('fastRouter', topMenuPageTab)
+      } else if ((!tab || tab === undefined) && location.pathname !== '/') {
+        tabList.current.set(location.pathname, newTab)
+      }
     }
+
     console.log('tyyyyyyyyyyyyyyyyy', tabList.current)
-  }, [location])
+  }, [location, tt])
 
   // 重新加载
-  const updateTab = () => {
-    console.log('location.pathname', location)
+  const uploadTab = () => {
+    history.go(0)
+  }
+
+  const closeLeftTab = () => {
+    console.log('af', tabList.current.values())
   }
 
   // 关闭tab
@@ -120,13 +119,9 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
 
   // 选择tab
   const selectTab = useMemoizedFn((selectKey) => {
-    console.log('selectKey==', selectKey)
-    const params = selectKey.split('?')[1]
-    // const paramState = params ? JSON.parse(params) : {}
-    console.log('paramState', params)
+    console.log('const ', selectKey)
     navigate(getTabPath(tabList.current.get(selectKey)), {
-      replace: true,
-      state: { dada: 'oo' }
+      replace: true
     })
   })
 
@@ -170,7 +165,7 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
         </a>
       </Menu.Item>
       <Menu.Item key={Math.random()}>
-        <a target='_blank' rel='noopener noreferrer' href='https://www.aliyun.com'>
+        <a target='_blank' onClick={closeLeftTab} rel='noopener noreferrer' href='https://www.aliyun.com'>
         关闭左侧
         </a>
       </Menu.Item>
@@ -197,7 +192,7 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
         <Button type='link' icon={<ColumnWidthOutlined />} />
       </Dropdown>
       <Tooltip placement='bottom' title='重新加载'>
-        <Button type='link' onClick={updateTab} icon={<RedoOutlined />} />
+        <Button type='link' onClick={uploadTab} icon={<RedoOutlined />} />
       </Tooltip>
       <Tooltip placement='bottomRight' title={showMaximize ? '窗口最大化' : '窗口还原' }>
         <Button style={{ marginRight: '8px' }} type='link' icon={showMaximize ? <ArrowsAltOutlined /> : <ShrinkOutlined />} onClick={clickChangeMaximize}/>
