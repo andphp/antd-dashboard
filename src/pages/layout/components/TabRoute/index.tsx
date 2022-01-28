@@ -97,7 +97,7 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
     }
 
     console.log('tyyyyyyyyyyyyyyyyy', tabList.current)
-  }, [location, tt])
+  }, [location])
 
   // 重新加载
   const uploadTab = () => {
