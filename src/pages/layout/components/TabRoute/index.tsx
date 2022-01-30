@@ -12,7 +12,7 @@ import {
   useParams,
   Params
 } from 'react-router-dom'
-import { ArrowsAltOutlined, ShrinkOutlined, VerticalRightOutlined, VerticalLeftOutlined, ColumnWidthOutlined, RedoOutlined } from '@ant-design/icons'
+import { ArrowsAltOutlined, ShrinkOutlined, VerticalRightOutlined, VerticalLeftOutlined, ColumnWidthOutlined, RedoOutlined, SmallDashOutlined } from '@ant-design/icons'
 import { PageLoading } from '@ant-design/pro-layout'
 import { useGetCurrentMenus } from '@/api'
 import { GetMenuListState, SetMenuListState } from '@/stores/menu'
@@ -32,6 +32,7 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
   const tabList = useRef(new Map())
   const { formatMessage } = useLocale()
 
+  const [reload, setReload] = useState(false)
   const initMenuList = (pathname: string, menuList: any[] | undefined) => {
     if (!menuList) return false
     menuList.forEach((m) => {
@@ -52,7 +53,6 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
   const updateTabList = useCreation(() => {
     // 初始化菜单路由
     const getMenuListState = GetMenuListState(location.pathname)
-    console.log('----------sssssssssss--------')
     if (getMenuListState === null || getMenuListState === undefined) {
       initMenuList(location.pathname, menuList)
     }
@@ -95,17 +95,66 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
         tabList.current.set(location.pathname, newTab)
       }
     }
-
-    console.log('tyyyyyyyyyyyyyyyyy', tabList.current)
   }, [location])
 
   // 重新加载
   const uploadTab = () => {
-    history.go(0)
+    setTimeout(() => {
+      setReload(false)
+    })
+    setReload(true)
   }
 
+  // 关闭左边
   const closeLeftTab = () => {
-    console.log('af', tabList.current.values())
+    Array.from(tabList.current.keys()).findIndex((selectKey) => {
+      if (selectKey !== location.pathname) {
+        tabList.current.delete(selectKey)
+        return false
+      } else {
+        return true
+      }
+    })
+    selectTab(location.pathname)
+  }
+
+  // 关闭右边
+  const closeRigthTab = () => {
+    let isRigth = false
+    Array.from(tabList.current.keys()).findIndex((selectKey) => {
+      if (isRigth) {
+        tabList.current.delete(selectKey)
+      }
+      if (selectKey === location.pathname) {
+        isRigth = true
+      }
+      return false
+    })
+    selectTab(location.pathname)
+  }
+
+  // 关闭其他
+  const closeOtherTab = () => {
+    Array.from(tabList.current.keys()).findIndex((selectKey) => {
+      if (selectKey !== location.pathname) {
+        tabList.current.delete(selectKey)
+      }
+      return false
+    })
+
+    selectTab(location.pathname)
+  }
+
+  // 关闭所有
+  const closeAllTab = () => {
+    Array.from(tabList.current.keys()).findIndex((selectKey) => {
+      tabList.current.delete(selectKey)
+      return false
+    })
+
+    navigate('/' + location.pathname.split('/')[1], {
+      replace: true
+    })
   }
 
   // 关闭tab
@@ -119,7 +168,6 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
 
   // 选择tab
   const selectTab = useMemoizedFn((selectKey) => {
-    console.log('const ', selectKey)
     navigate(getTabPath(tabList.current.get(selectKey)), {
       replace: true
     })
@@ -160,24 +208,17 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
   const menu = (
     <Menu>
       <Menu.Item key={Math.random()}>
-        <a target='_blank' rel='noopener noreferrer' href='https://www.antgroup.com'>
-        关闭其他
-        </a>
+        <Button type='link' onClick={closeLeftTab} icon={<VerticalRightOutlined />}>{ formatMessage({ id: 'gloabal.tips.tabs.closeLeftTab' })}</Button>
       </Menu.Item>
       <Menu.Item key={Math.random()}>
-        <a target='_blank' onClick={closeLeftTab} rel='noopener noreferrer' href='https://www.aliyun.com'>
-        关闭左侧
-        </a>
+        <Button type='link' onClick={closeRigthTab} icon={<VerticalLeftOutlined />} >{ formatMessage({ id: 'gloabal.tips.tabs.closeRigthTab' })}</Button>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key={Math.random()}>
+        <Button type='link' onClick={closeOtherTab} icon={<SmallDashOutlined />} >{ formatMessage({ id: 'gloabal.tips.tabs.closeOtherTab' })}</Button>
       </Menu.Item>
       <Menu.Item key={Math.random()}>
-        <a target='_blank' rel='noopener noreferrer' href='https://www.luohanacademy.com'>
-        关闭右侧
-        </a>
-      </Menu.Item>
-      <Menu.Item key={Math.random()}>
-        <a target='_blank' rel='noopener noreferrer' href='https://www.luohanacademy.com'>
-        关闭全部
-        </a>
+        <Button type='link' onClick={closeAllTab} icon={<ColumnWidthOutlined />} >{ formatMessage({ id: 'gloabal.tips.tabs.closeAllTab' })}</Button>
       </Menu.Item>
     </Menu>
   )
@@ -191,10 +232,10 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
       <Dropdown overlay={menu} placement='bottomLeft' arrow>
         <Button type='link' icon={<ColumnWidthOutlined />} />
       </Dropdown>
-      <Tooltip placement='bottom' title='重新加载'>
+      <Tooltip placement='bottom' title={ formatMessage({ id: 'gloabal.tips.tabs.reloadTab' })}>
         <Button type='link' onClick={uploadTab} icon={<RedoOutlined />} />
       </Tooltip>
-      <Tooltip placement='bottomRight' title={showMaximize ? '窗口最大化' : '窗口还原' }>
+      <Tooltip placement='bottomRight' title={showMaximize ? formatMessage({ id: 'gloabal.tips.tabs.tabMaximization' }) : formatMessage({ id: 'gloabal.tips.tabs.restore' }) }>
         <Button style={{ marginRight: '8px' }} type='link' icon={showMaximize ? <ArrowsAltOutlined /> : <ShrinkOutlined />} onClick={clickChangeMaximize}/>
       </Tooltip>
 
@@ -230,7 +271,7 @@ const TabRoute = function(clickChangeMaximize: React.MouseEventHandler<HTMLEleme
   >
     {[...tabList.current.values()].map((item) => (
       <TabPane style={{ paddingLeft: '16px' }} tab={item.name} key={item.key}>
-        <Suspense fallback={<PageLoading />}>{item.page}</Suspense>
+        <Suspense fallback={<PageLoading />}>{reload ? <PageLoading /> : item.page}</Suspense>
       </TabPane>
     ))}
   </Tabs>)

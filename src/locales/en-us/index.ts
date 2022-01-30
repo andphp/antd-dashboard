@@ -8,7 +8,6 @@ import { enUS_dashboard } from './dashboard'
 import { enUS_guide } from './guide'
 import { enUS_project } from './project'
 import { enUS_menu } from './menu'
-import { en_US_documentation } from './documentation'
 import { enUS_login } from './login'
 
 const en_US = {
@@ -22,7 +21,6 @@ const en_US = {
   ...enUS_guide,
   ...enUS_menu,
   ...enUS_project,
-  ...en_US_documentation,
   ...enUS_login
 }
 
