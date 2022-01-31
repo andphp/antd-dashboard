@@ -24,7 +24,7 @@ const TopLevelMenuPage: React.FC<TopLevelMenuPageProps> = ({ frompath }) => {
     locale?: string,
     icon?: string})[] = []
   const tertiaryLoopMenuItem = (
-    loopMenuItem().map((menuItem: { children?: any; path: any; locale: any; name: any; icon?: string | undefined }) => {
+    loopMenuItem().map((menuItem) => {
       if (menuItem.children?.length) {
         return (
           <Fragment key={`SelectMenuCard` + menuItem.path}>
@@ -34,7 +34,7 @@ const TopLevelMenuPage: React.FC<TopLevelMenuPageProps> = ({ frompath }) => {
             <Row gutter={[24, { xs: 12, sm: 24 }]}>
 
               {
-                menuItem.children.map((menuChildrenItem: { path: string; locale: any; name: string }) => <SelectMenuCard key={`SelectMenuCard` + menuChildrenItem.path} title={(
+                menuItem.children.map((menuChildrenItem) => <SelectMenuCard key={`SelectMenuCard` + menuChildrenItem.path} title={(
                   menuChildrenItem.locale ? formatMessage({ id: menuChildrenItem.locale }) : menuChildrenItem.name
                 )} path={menuChildrenItem.path} />)
               }
