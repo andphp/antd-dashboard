@@ -67,7 +67,7 @@ const TopLevelMenuPage: React.FC<TopLevelMenuPageProps> = ({ frompath }) => {
   return (
     <>
       {tertiaryLoopMenuItem}
-      {secondMenu.length ? <Divider orientation='left'>其他</Divider> : ''}
+      {secondMenu.length ? <Divider orientation='left'>{ formatMessage({ id: 'gloabal.topLevelMenu.divider.title.other' }) }</Divider> : ''}
       {secondLoopMenuItem}
     </>
   )

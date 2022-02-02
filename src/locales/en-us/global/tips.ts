@@ -21,5 +21,6 @@ export const enUS_globalTips = {
   'gloabal.tips.tabs.closeAllTab': 'Close all tab pages',
   'gloabal.tips.tabs.reloadTab': 'Reload tab page',
   'gloabal.tips.tabs.tabMaximization': 'Tab maximization',
-  'gloabal.tips.tabs.restore': 'Restore window'
+  'gloabal.tips.tabs.restore': 'Restore window',
+  'gloabal.topLevelMenu.divider.title.other': 'Other Menus'
 }

@@ -5,7 +5,7 @@ import { FrownOutlined, HeartOutlined, MenuFoldOutlined, MenuUnfoldOutlined, Smi
 import type { MenuDataItem } from '@ant-design/pro-layout'
 import ProLayout from '@ant-design/pro-layout'
 import { createBrowserHistory } from 'history'
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { useGuide } from '../guide/useGuide'
@@ -14,7 +14,6 @@ import GlobalHeaderRight from './components/GlobalHeaderRight'
 import TabRoute from './components/TabRoute'
 import styles from './index.module.less'
 import _ from 'lodash'
-import { Button } from 'antd'
 
 const history = createBrowserHistory()
 
@@ -24,8 +23,8 @@ const IconMap: { [key: string]: React.ReactNode } = {
   frown: <FrownOutlined />
 }
 
-const LayoutPage: FC = ({ children }) => {
-  const { data: menuList, error } = useGetCurrentMenus()
+const LayoutPage: FC = () => {
+  const { data: menuList } = useGetCurrentMenus()
 
   const [user, setUser] = useRecoilState(userState)
   const [pathname, setPathname] = useState('/welcome')

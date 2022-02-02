@@ -1,7 +1,6 @@
 import reactRefresh from '@vitejs/plugin-react-refresh'
 import { viteMockServe } from 'vite-plugin-mock'
 import { resolve } from 'path'
-import svgr from 'vite-plugin-svgr'
 
 function pathResolve(dir: string) {
   return resolve(__dirname, '.', dir)
@@ -40,7 +39,6 @@ export default ({ command }: { command: string }) => {
     // },
     plugins: [
       reactRefresh(),
-      svgr(),
       viteMockServe({
         mockPath: 'mock',
         supportTs: true,
