@@ -16,7 +16,7 @@ export interface IconType extends React.HTMLAttributes<any> {
   // createFromIconfontCN 返回一个组件
 const FontIcon = createFromIconfontCN({
   // 请给新图标一个合适的驼峰命名，并保证单词正确//at.alicdn.com/t/font_3168130_s635q11ab28.js
-  scriptUrl: '//at.alicdn.com/t/font_3168130_s635q11ab28.js'
+  scriptUrl: '//at.alicdn.com/t/font_3168130_5pj66yoarc8.js'
 })
 
 const Icon: React.FC<IconType> = ({

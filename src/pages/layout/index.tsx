@@ -14,6 +14,7 @@ import GlobalHeaderRight from './components/GlobalHeaderRight'
 import TabRoute from './components/TabRoute'
 import styles from './index.module.less'
 import _ from 'lodash'
+import Icon from '@/components/icon'
 
 const history = createBrowserHistory()
 
@@ -27,7 +28,6 @@ const LayoutPage: FC = () => {
   const { data: menuList } = useGetCurrentMenus()
 
   const [user, setUser] = useRecoilState(userState)
-  const [pathname, setPathname] = useState('/welcome')
   const { device, collapsed, newUser, settings } = user
   const isMobile = device === 'MOBILE'
   const { driverStart } = useGuide()
@@ -54,7 +54,7 @@ const LayoutPage: FC = () => {
     const m = menus.map(({ icon, children, ...item }) => ({
       ...item,
       hideInBreadcrumb: false,
-      icon: icon && IconMap[icon as string],
+      icon: icon && <Icon type={`icon-${icon}`} />,
       children: children && loopMenuItem(children)
     }))
 

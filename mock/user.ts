@@ -27,21 +27,21 @@ const mockMenuList = [
     path: '/system',
     name: 'systemManagement',
     locale: 'menu.system',
-    icon: 'smile',
+    icon: 'tubiaozhizuomoban-24',
 
     children: [
       {
         path: '/system/authority',
         name: 'authority',
         locale: 'menu.system.authority',
-        icon: 'smile',
+        icon: 'quanxianguanli',
 
         children: [
           {
             path: '/system/authority/interface',
             name: 'interfaceManagement',
             locale: 'menu.system.authority.interface',
-            icon: 'smile'
+            icon: 'jiekouguanli'
           },
           {
             path: '/system/authority/menu',
